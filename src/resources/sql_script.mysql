@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS client (
+    client_id INT AUTO_INCREMENT,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    role VARCHAR(255),
+    contracts VARCHAR(255),
+    PRIMARY KEY (client_id)
+);
+
+CREATE TABLE IF NOT EXISTS contract (
+    contract_id INT AUTO_INCREMENT,
+    effective_date DATE DEFAULT NULL,
+    expiration_date DATE DEFAULT NULL,
+    premium_amount VARCHAR(255),
+    type VARCHAR(255),
+    client_id INT(255),
+    PRIMARY KEY (contract_id),
+    FOREIGN KEY (client_id) REFERENCES client(client_id)
+);
