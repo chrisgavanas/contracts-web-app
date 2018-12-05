@@ -1,26 +1,14 @@
 package com.api;
 
 import com.entity.Contract;
-import com.repository.ClientRepository;
-import com.repository.ContractRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @RequestMapping(path = "/api")
-public class ClientApi {
+public interface ClientApi {
 
-    @Autowired
-    private ContractRepository contractRepository;
-
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @RequestMapping(path = "/test", method = RequestMethod.POST, produces = "application/json")
-    public Contract test() {
-        return null;
-    }
+    @GetMapping(path = "/contract", produces = MediaType.APPLICATION_JSON_VALUE)
+    Contract getContractsOfClient(Long clientId);
 
 }

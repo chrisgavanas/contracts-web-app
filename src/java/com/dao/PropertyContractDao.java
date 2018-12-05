@@ -1,13 +1,13 @@
 package com.dao;
 
-import com.repository.ContractRepository;
+import com.repository.PropertyContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ContractDao {
+public class PropertyContractDao {
 
     @Autowired
-    private ContractRepository contractRepository;
+    private PropertyContractRepository propertyContractRepository;
 
 }
