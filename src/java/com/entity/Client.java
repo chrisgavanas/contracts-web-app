@@ -32,9 +32,6 @@ public class Client {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "contracts")
-    private String contracts;
-
     public Long getClientId() {
         return clientId;
     }
@@ -83,11 +80,4 @@ public class Client {
         this.role = role;
     }
 
-    public String getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(String contracts) {
-        this.contracts = contracts;
-    }
 }

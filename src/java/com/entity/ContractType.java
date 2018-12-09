@@ -1,6 +1,6 @@
-package com.dto.enums;
+package com.entity;
 
-public enum  ContractType {
+public enum ContractType {
 
     VEHICLE,
     PROPERTY,

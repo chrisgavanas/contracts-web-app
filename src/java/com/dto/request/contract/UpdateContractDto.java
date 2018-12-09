@@ -1,20 +1,14 @@
 package com.dto.request.contract;
 
-import com.dto.enums.ContractType;
-
 import java.time.Instant;
 
-public abstract class CreateContractDto {
+public abstract class UpdateContractDto {
 
     private Instant effectiveDate;
 
     private Instant expirationDate;
 
     private Double premiumAmount;
-
-    private Long clientId;
-
-    private ContractType contractType;
 
     public Instant getEffectiveDate() {
         return effectiveDate;
@@ -38,21 +32,5 @@ public abstract class CreateContractDto {
 
     public void setPremiumAmount(Double premiumAmount) {
         this.premiumAmount = premiumAmount;
-    }
-
-    public Long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public ContractType getContractType() {
-        return contractType;
-    }
-
-    public void setContractType(ContractType contractType) {
-        this.contractType = contractType;
     }
 }

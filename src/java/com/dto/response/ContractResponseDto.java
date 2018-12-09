@@ -1,10 +1,12 @@
-package com.dto.request.contract;
+package com.dto.response;
 
 import com.dto.enums.ContractType;
 
 import java.time.Instant;
 
-public abstract class CreateContractDto {
+public abstract class ContractResponseDto {
+
+    private Long contractId;
 
     private Instant effectiveDate;
 
@@ -15,6 +17,14 @@ public abstract class CreateContractDto {
     private Long clientId;
 
     private ContractType contractType;
+
+    public Long getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(Long contractId) {
+        this.contractId = contractId;
+    }
 
     public Instant getEffectiveDate() {
         return effectiveDate;

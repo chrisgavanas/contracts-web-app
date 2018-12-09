@@ -2,6 +2,8 @@ package com.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,8 +36,9 @@ public class Contract {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private ContractType type;
 
     public Long getContractId() {
         return contractId;
@@ -77,11 +80,11 @@ public class Contract {
         this.client = client;
     }
 
-    public String getType() {
+    public ContractType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ContractType type) {
         this.type = type;
     }
 }

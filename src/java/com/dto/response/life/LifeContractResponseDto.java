@@ -1,12 +1,15 @@
-package com.dto.request.contract;
+package com.dto.response.life;
 
-public class CreateLifeContractDto extends CreateContractDto {
+import com.dto.enums.MedicalRecord;
+import com.dto.response.ContractResponseDto;
+
+public class LifeContractResponseDto extends ContractResponseDto {
 
     private Integer securedAge;
 
     private String beneficiary;
 
-    private String medicalRecord;
+    private MedicalRecord medicalRecord;
 
     private Double insuredValue;
 
@@ -26,11 +29,11 @@ public class CreateLifeContractDto extends CreateContractDto {
         this.beneficiary = beneficiary;
     }
 
-    public String getMedicalRecord() {
+    public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
 
-    public void setMedicalRecord(String medicalRecord) {
+    public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
     }
 

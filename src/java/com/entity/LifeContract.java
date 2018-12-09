@@ -1,8 +1,13 @@
 package com.entity;
 
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,13 +31,15 @@ public class LifeContract {
     @Column(name = "beneficiary")
     private String beneficiary;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "medical_record")
-    private Double medical_record;
+    private MedicalRecord medicalRecord;
 
     @Column(name = "insured_value")
     private Double insuredValue;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @Cascade(value = CascadeType.ALL)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
@@ -60,12 +67,12 @@ public class LifeContract {
         this.beneficiary = beneficiary;
     }
 
-    public Double getMedical_record() {
-        return medical_record;
+    public MedicalRecord getMedicalRecord() {
+        return medicalRecord;
     }
 
-    public void setMedical_record(Double medical_record) {
-        this.medical_record = medical_record;
+    public void setMedicalRecord(MedicalRecord medical_record) {
+        this.medicalRecord = medical_record;
     }
 
     public Double getInsuredValue() {

@@ -1,12 +1,14 @@
-package com.dto.request.contract;
+package com.dto.request.contract.vehicle;
+
+import com.dto.request.contract.CreateContractDto;
 
 public class CreateVehicleContractDto extends CreateContractDto {
 
     private String plateNumber;
 
-    private Double bonusMalus;
+    private Integer bonusMalus;
 
-    private Integer firstRegistrationDate;
+    private Integer firstRegistrationYear;
 
     private Double vehicleValue;
 
@@ -18,20 +20,20 @@ public class CreateVehicleContractDto extends CreateContractDto {
         this.plateNumber = plateNumber;
     }
 
-    public Double getBonusMalus() {
+    public Integer getBonusMalus() {
         return bonusMalus;
     }
 
-    public void setBonusMalus(Double bonusMalus) {
+    public void setBonusMalus(Integer bonusMalus) {
         this.bonusMalus = bonusMalus;
     }
 
-    public Integer getFirstRegistrationDate() {
-        return firstRegistrationDate;
+    public Integer getFirstRegistrationYear() {
+        return firstRegistrationYear;
     }
 
-    public void setFirstRegistrationDate(Integer firstRegistrationDate) {
-        this.firstRegistrationDate = firstRegistrationDate;
+    public void setFirstRegistrationYear(Integer firstRegistrationYear) {
+        this.firstRegistrationYear = firstRegistrationYear;
     }
 
     public Double getVehicleValue() {

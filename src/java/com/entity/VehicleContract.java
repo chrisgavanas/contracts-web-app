@@ -1,5 +1,8 @@
 package com.entity;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.time.Instant;
 
 @Entity
 @Table(name = "vehicle_contract")
@@ -20,16 +22,20 @@ public class VehicleContract {
     @Column(name = "vehicle_contract_id")
     private Long vehicleContractId;
 
-    @Column(name = "bonus_malus")
-    private Double bonusMalus;
+    @Column(name = "plate_number")
+    private String plateNumber;
 
-    @Column(name = "first_registration_date")
-    private Instant firstRegistrationDate;
+    @Column(name = "bonus_malus")
+    private Integer bonusMalus;
+
+    @Column(name = "first_registration_year")
+    private Integer firstRegistrationYear;
 
     @Column(name = "vehicle_value")
     private Double vehicleValue;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @Cascade(value = CascadeType.ALL)
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
@@ -41,20 +47,28 @@ public class VehicleContract {
         this.vehicleContractId = vehicleContractId;
     }
 
-    public Double getBonusMalus() {
+    public String getPlateNumber() {
+        return plateNumber;
+    }
+
+    public void setPlateNumber(String plateNumber) {
+        this.plateNumber = plateNumber;
+    }
+
+    public Integer getBonusMalus() {
         return bonusMalus;
     }
 
-    public void setBonusMalus(Double bonusMalus) {
+    public void setBonusMalus(Integer bonusMalus) {
         this.bonusMalus = bonusMalus;
     }
 
-    public Instant getFirstRegistrationDate() {
-        return firstRegistrationDate;
+    public Integer getFirstRegistrationYear() {
+        return firstRegistrationYear;
     }
 
-    public void setFirstRegistrationDate(Instant firstRegistrationDate) {
-        this.firstRegistrationDate = firstRegistrationDate;
+    public void setFirstRegistrationYear(Integer firstRegistrationYear) {
+        this.firstRegistrationYear = firstRegistrationYear;
     }
 
     public Double getVehicleValue() {
