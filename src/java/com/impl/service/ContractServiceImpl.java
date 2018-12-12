@@ -3,7 +3,9 @@ package com.impl.service;
 import com.dao.ClientDao;
 import com.dao.LifeContractDao;
 import com.dao.VehicleContractDao;
+import com.dto.request.contract.UpdateContractDto;
 import com.dto.request.contract.life.CreateLifeContractDto;
+import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
 import com.dto.response.life.LifeContractResponseDto;
@@ -11,6 +13,7 @@ import com.dto.response.vehicle.VehicleContractResponseDto;
 import com.entity.Client;
 import com.entity.Contract;
 import com.entity.LifeContract;
+import com.entity.MedicalRecord;
 import com.entity.VehicleContract;
 import com.error.ClientError;
 import com.error.ContractError;
@@ -72,6 +75,23 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.vehicleContractToResponseDto(vehicleContract);
     }
 
+    @Transactional
+    @Override
+    public LifeContractResponseDto updateLifeContract(Long contractId, UpdateLifeContractDto updateLifeContractDto) {
+        LifeContract lifeContract = findLifeContractById(contractId);
+
+        updateLifeContractFields(lifeContract, updateLifeContractDto);
+        ensureContractDatesValidity(lifeContract.getContract());
+        lifeContractDao.persistLifeContract(lifeContract);
+
+        return contractMapper.lifeContractToResponseDto(lifeContract);
+    }
+
+    private LifeContract findLifeContractById(Long contractId) {
+        return lifeContractDao.findLifeContractById(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
+    }
+
     private Client findClientByClientId(Long clientId) {
         return clientDao.findClientByClientId(clientId)
                 .orElseThrow(() -> new NotFoundException(ClientError.CLIENT_NOT_FOUND));
@@ -93,8 +113,24 @@ public class ContractServiceImpl implements ContractService {
         Optional.ofNullable(updateVehicleContractDto.getPlateNumber()).ifPresent(vehicleContract::setPlateNumber);
         Optional.ofNullable(updateVehicleContractDto.getVehicleValue()).ifPresent(vehicleContract::setVehicleValue);
         Optional.ofNullable(updateVehicleContractDto.getFirstRegistrationYear()).ifPresent(vehicleContract::setFirstRegistrationYear);
-        Optional.ofNullable(updateVehicleContractDto.getEffectiveDate()).ifPresent(effectiveDate -> vehicleContract.getContract().setEffectiveDate(effectiveDate));
-        Optional.ofNullable(updateVehicleContractDto.getExpirationDate()).ifPresent(expirationDate -> vehicleContract.getContract().setExpirationDate(expirationDate));
-        Optional.ofNullable(updateVehicleContractDto.getPremiumAmount()).ifPresent(premiumAmount -> vehicleContract.getContract().setPremiumAmount(premiumAmount));
+        updateBaseContractFields(vehicleContract.getContract(), updateVehicleContractDto);
     }
+
+    private void updateLifeContractFields(LifeContract lifeContract, UpdateLifeContractDto updateLifeContractDto) {
+        Optional.ofNullable(updateLifeContractDto.getSecuredAge()).ifPresent(lifeContract::setSecuredAge);
+        Optional.ofNullable(updateLifeContractDto.getBeneficiary()).ifPresent(lifeContract::setBeneficiary);
+        Optional.ofNullable(updateLifeContractDto.getMedicalRecord()).ifPresent(medicalRecord -> lifeContract.setMedicalRecord(MedicalRecord.valueOf(medicalRecord.name())));
+        Optional.ofNullable(updateLifeContractDto.getInsuredValue()).ifPresent(lifeContract::setInsuredValue);
+        updateBaseContractFields(lifeContract.getContract(), updateLifeContractDto);
+    }
+
+    private void updateBaseContractFields(Contract contract, UpdateContractDto updateContractDto) {
+        if (contract != null) {
+            Optional.ofNullable(updateContractDto.getEffectiveDate()).ifPresent(contract::setEffectiveDate);
+            Optional.ofNullable(updateContractDto.getExpirationDate()).ifPresent(contract::setExpirationDate);
+            Optional.ofNullable(updateContractDto.getPremiumAmount()).ifPresent(contract::setPremiumAmount);
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.service;
 
 import com.dto.request.contract.life.CreateLifeContractDto;
+import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
 import com.dto.response.life.LifeContractResponseDto;
@@ -14,4 +15,5 @@ public interface ContractService {
 
     VehicleContractResponseDto updateVehicleContract(Long contractId, UpdateVehicleContractDto updateVehicleContractDto);
 
+    LifeContractResponseDto updateLifeContract(Long contractId, UpdateLifeContractDto updateLifeContractDto);
 }

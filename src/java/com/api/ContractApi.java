@@ -4,6 +4,7 @@ import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
 import com.dto.response.life.LifeContractResponseDto;
+import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.response.vehicle.VehicleContractResponseDto;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,5 +21,8 @@ public interface ContractApi {
 
     @PostMapping(path = "/vehicle-contract/{contract-id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     VehicleContractResponseDto updateVehicleContract(Long contractId, UpdateVehicleContractDto updateVehicleContractDto);
+
+    @PostMapping(path = "/life-contract/{contract-id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    LifeContractResponseDto updateLifeContract(Long contractId, UpdateLifeContractDto lifeContractDto);
 
 }

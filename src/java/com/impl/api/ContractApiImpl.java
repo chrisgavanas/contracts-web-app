@@ -2,12 +2,14 @@ package com.impl.api;
 
 import com.api.ContractApi;
 import com.dto.request.contract.life.CreateLifeContractDto;
+import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
 import com.dto.response.life.LifeContractResponseDto;
 import com.dto.response.vehicle.VehicleContractResponseDto;
 import com.service.ContractService;
 import com.validator.contract.life.CreateLifeContractRequestValidator;
+import com.validator.contract.life.UpdateLifeContractRequestValidator;
 import com.validator.contract.vehicle.CreateVehicleContractRequestValidator;
 import com.validator.contract.vehicle.UpdateVehicleContractRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class ContractApiImpl implements ContractApi {
 
     @Autowired
     private UpdateVehicleContractRequestValidator updateVehicleContractRequestValidator;
+
+    @Autowired
+    private UpdateLifeContractRequestValidator updateLifeContractRequestValidator;
 
 
     @Autowired
@@ -47,6 +52,12 @@ public class ContractApiImpl implements ContractApi {
     public VehicleContractResponseDto updateVehicleContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdateVehicleContractDto updateVehicleContractDto) {
         updateVehicleContractRequestValidator.validate(updateVehicleContractDto);
         return contractService.updateVehicleContract(contractId, updateVehicleContractDto);
+    }
+
+    @Override
+    public LifeContractResponseDto updateLifeContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdateLifeContractDto updateLifeContractDto) {
+        updateLifeContractRequestValidator.validate(updateLifeContractDto);
+        return contractService.updateLifeContract(contractId, updateLifeContractDto);
     }
 
 
