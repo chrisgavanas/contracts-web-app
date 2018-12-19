@@ -69,7 +69,7 @@ public class ContractServiceImpl implements ContractService {
         VehicleContract vehicleContract = findVehicleContractById(contractId);
 
         updateVehicleContractFields(vehicleContract, updateVehicleContractDto);
-        ensureContractDatesValidity(vehicleContract.getContract());
+        ensureContractDatesValidity(vehicleContract);
         vehicleContractDao.persistVehicleContract(vehicleContract);
 
         return contractMapper.vehicleContractToResponseDto(vehicleContract);
@@ -81,7 +81,7 @@ public class ContractServiceImpl implements ContractService {
         LifeContract lifeContract = findLifeContractById(contractId);
 
         updateLifeContractFields(lifeContract, updateLifeContractDto);
-        ensureContractDatesValidity(lifeContract.getContract());
+        ensureContractDatesValidity(lifeContract);
         lifeContractDao.persistLifeContract(lifeContract);
 
         return contractMapper.lifeContractToResponseDto(lifeContract);
@@ -113,7 +113,7 @@ public class ContractServiceImpl implements ContractService {
         Optional.ofNullable(updateVehicleContractDto.getPlateNumber()).ifPresent(vehicleContract::setPlateNumber);
         Optional.ofNullable(updateVehicleContractDto.getVehicleValue()).ifPresent(vehicleContract::setVehicleValue);
         Optional.ofNullable(updateVehicleContractDto.getFirstRegistrationYear()).ifPresent(vehicleContract::setFirstRegistrationYear);
-        updateBaseContractFields(vehicleContract.getContract(), updateVehicleContractDto);
+        updateBaseContractFields(vehicleContract, updateVehicleContractDto);
     }
 
     private void updateLifeContractFields(LifeContract lifeContract, UpdateLifeContractDto updateLifeContractDto) {
@@ -121,7 +121,7 @@ public class ContractServiceImpl implements ContractService {
         Optional.ofNullable(updateLifeContractDto.getBeneficiary()).ifPresent(lifeContract::setBeneficiary);
         Optional.ofNullable(updateLifeContractDto.getMedicalRecord()).ifPresent(medicalRecord -> lifeContract.setMedicalRecord(MedicalRecord.valueOf(medicalRecord.name())));
         Optional.ofNullable(updateLifeContractDto.getInsuredValue()).ifPresent(lifeContract::setInsuredValue);
-        updateBaseContractFields(lifeContract.getContract(), updateLifeContractDto);
+        updateBaseContractFields(lifeContract, updateLifeContractDto);
     }
 
     private void updateBaseContractFields(Contract contract, UpdateContractDto updateContractDto) {

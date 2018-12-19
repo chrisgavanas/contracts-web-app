@@ -14,8 +14,6 @@ import com.entity.MedicalRecord;
 import com.entity.VehicleContract;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class ContractMapper {
 
@@ -29,7 +27,7 @@ public class ContractMapper {
         vehicleContract.setBonusMalus(createVehicleContractDto.getBonusMalus());
         vehicleContract.setFirstRegistrationYear(createVehicleContractDto.getFirstRegistrationYear());
         vehicleContract.setVehicleValue(createVehicleContractDto.getVehicleValue());
-        vehicleContract.setContract(createBaseContract(createVehicleContractDto, client));
+        enrichBaseContract(vehicleContract, createVehicleContractDto, client);
         return vehicleContract;
     }
 
@@ -43,7 +41,7 @@ public class ContractMapper {
         lifeContract.setBeneficiary(createLifeContractDto.getBeneficiary());
         lifeContract.setMedicalRecord(MedicalRecord.valueOf(createLifeContractDto.getMedicalRecord().toString()));
         lifeContract.setInsuredValue(createLifeContractDto.getInsuredValue());
-        lifeContract.setContract(createBaseContract(createLifeContractDto, client));
+        enrichBaseContract(lifeContract, createLifeContractDto, client);
         return lifeContract;
     }
 
@@ -54,15 +52,12 @@ public class ContractMapper {
         }
 
         VehicleContractResponseDto vehicleContractResponseDto = new VehicleContractResponseDto();
-        vehicleContractResponseDto.setContractId(vehicleContract.getVehicleContractId());
+        vehicleContractResponseDto.setContractId(vehicleContract.getContractId());
         vehicleContractResponseDto.setPlateNumber(vehicleContract.getPlateNumber());
         vehicleContractResponseDto.setBonusMalus(vehicleContract.getBonusMalus());
         vehicleContractResponseDto.setFirstRegistrationYear(vehicleContract.getFirstRegistrationYear());
         vehicleContractResponseDto.setVehicleValue(vehicleContract.getVehicleValue());
-
-        Contract baseContract = vehicleContract.getContract();
-        Optional.ofNullable(baseContract).ifPresent(contract -> enrichBaseContract(vehicleContractResponseDto, baseContract));
-
+        enrichBaseContract(vehicleContractResponseDto, vehicleContract);
         return vehicleContractResponseDto;
     }
 
@@ -72,26 +67,21 @@ public class ContractMapper {
         }
 
         LifeContractResponseDto lifeContractResponseDto = new LifeContractResponseDto();
-        lifeContractResponseDto.setContractId(lifeContract.getLifeContractId());
+        lifeContractResponseDto.setContractId(lifeContract.getContractId());
         lifeContractResponseDto.setSecuredAge(lifeContract.getSecuredAge());
         lifeContractResponseDto.setBeneficiary(lifeContract.getBeneficiary());
         lifeContractResponseDto.setMedicalRecord(com.dto.enums.MedicalRecord.valueOf(lifeContract.getMedicalRecord().toString()));
         lifeContractResponseDto.setInsuredValue(lifeContract.getInsuredValue());
-
-        Contract baseContract = lifeContract.getContract();
-        Optional.ofNullable(baseContract).ifPresent(contract -> enrichBaseContract(lifeContractResponseDto, baseContract));
-
+        enrichBaseContract(lifeContractResponseDto, lifeContract);
         return lifeContractResponseDto;
     }
 
-    private Contract createBaseContract(CreateContractDto createContractDto, Client client) {
-        Contract contract = new Contract();
+    private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client) {
         contract.setEffectiveDate(createContractDto.getEffectiveDate());
         contract.setExpirationDate(createContractDto.getExpirationDate());
         contract.setPremiumAmount(createContractDto.getPremiumAmount());
         contract.setClient(client);
-        contract.setType(ContractType.valueOf(createContractDto.getContractType().toString()));
-        return contract;
+        contract.setContractType(ContractType.valueOf(createContractDto.getContractType().toString()));
     }
 
     private void enrichBaseContract(ContractResponseDto contractResponseDto, Contract baseContract) {
@@ -100,7 +90,7 @@ public class ContractMapper {
         contractResponseDto.setPremiumAmount(baseContract.getPremiumAmount());
         contractResponseDto.setEffectiveDate(baseContract.getEffectiveDate());
         contractResponseDto.setContractType(
-                com.dto.enums.ContractType.valueOf(baseContract.getType().toString())
+                com.dto.enums.ContractType.valueOf(baseContract.getContractType().toString())
         );
         Client client = baseContract.getClient();
         if (client != null) {

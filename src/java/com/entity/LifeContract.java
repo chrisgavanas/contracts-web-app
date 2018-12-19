@@ -1,29 +1,15 @@
 package com.entity;
 
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "life_contract")
-public class LifeContract {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "life_contract_id")
-    private Long lifeContractId;
+public class LifeContract extends Contract {
 
     @Column(name = "secured_age")
     private Integer securedAge;
@@ -37,19 +23,6 @@ public class LifeContract {
 
     @Column(name = "insured_value")
     private Double insuredValue;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @Cascade(value = CascadeType.ALL)
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
-
-    public Long getLifeContractId() {
-        return lifeContractId;
-    }
-
-    public void setLifeContractId(Long lifeContractId) {
-        this.lifeContractId = lifeContractId;
-    }
 
     public Integer getSecuredAge() {
         return securedAge;
@@ -83,12 +56,5 @@ public class LifeContract {
         this.insuredValue = insuredValue;
     }
 
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
 }
 

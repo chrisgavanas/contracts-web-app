@@ -2,22 +2,11 @@ package com.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "mobile_contract")
-public class MobileContract {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mobile_contract_id")
-    private Long mobileContractId;
+public class MobileContract extends Contract {
 
     @Column(name = "imei")
     private String imei;
@@ -27,18 +16,6 @@ public class MobileContract {
 
     @Column(name = "type")
     private String type;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
-
-    public Long getMobileContractId() {
-        return mobileContractId;
-    }
-
-    public void setMobileContractId(Long mobileContractId) {
-        this.mobileContractId = mobileContractId;
-    }
 
     public String getImei() {
         return imei;
@@ -64,12 +41,5 @@ public class MobileContract {
         this.type = type;
     }
 
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
 }
 

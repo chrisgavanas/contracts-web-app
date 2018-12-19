@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,6 +18,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "contract")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Contract {
 
     @Id
@@ -38,7 +41,7 @@ public class Contract {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private ContractType type;
+    private ContractType contractType;
 
     public Long getContractId() {
         return contractId;
@@ -80,11 +83,11 @@ public class Contract {
         this.client = client;
     }
 
-    public ContractType getType() {
-        return type;
+    public ContractType getContractType() {
+        return contractType;
     }
 
-    public void setType(ContractType type) {
-        this.type = type;
+    public void setContractType(ContractType contractType) {
+        this.contractType = contractType;
     }
 }

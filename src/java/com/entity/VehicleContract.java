@@ -1,26 +1,12 @@
 package com.entity;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "vehicle_contract")
-public class VehicleContract {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vehicle_contract_id")
-    private Long vehicleContractId;
+public class VehicleContract extends Contract {
 
     @Column(name = "plate_number")
     private String plateNumber;
@@ -33,19 +19,6 @@ public class VehicleContract {
 
     @Column(name = "vehicle_value")
     private Double vehicleValue;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @Cascade(value = CascadeType.ALL)
-    @JoinColumn(name = "contract_id")
-    private Contract contract;
-
-    public Long getVehicleContractId() {
-        return vehicleContractId;
-    }
-
-    public void setVehicleContractId(Long vehicleContractId) {
-        this.vehicleContractId = vehicleContractId;
-    }
 
     public String getPlateNumber() {
         return plateNumber;
@@ -79,11 +52,4 @@ public class VehicleContract {
         this.vehicleValue = vehicleValue;
     }
 
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
 }
