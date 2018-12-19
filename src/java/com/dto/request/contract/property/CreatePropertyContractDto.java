@@ -1,6 +1,8 @@
-package com.dto.request.contract;
+package com.dto.request.contract.property;
 
-public class CreatePropertyInsuranceDto extends CreateContractDto {
+import com.dto.request.contract.CreateContractDto;
+
+public class CreatePropertyContractDto extends CreateContractDto {
 
     private String registryNumber;
 

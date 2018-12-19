@@ -2,18 +2,28 @@ package com.impl.service;
 
 import com.dao.ClientDao;
 import com.dao.LifeContractDao;
+import com.dao.MobileContractDao;
+import com.dao.PropertyContractDao;
 import com.dao.VehicleContractDao;
 import com.dto.request.contract.UpdateContractDto;
 import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.life.UpdateLifeContractDto;
+import com.dto.request.contract.mobile.CreateMobileContractDto;
+import com.dto.request.contract.mobile.UpdateMobileContractDto;
+import com.dto.request.contract.property.CreatePropertyContractDto;
+import com.dto.request.contract.property.UpdatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
-import com.dto.response.life.LifeContractResponseDto;
-import com.dto.response.vehicle.VehicleContractResponseDto;
+import com.dto.response.contract.life.LifeContractResponseDto;
+import com.dto.response.contract.mobile.MobileContractResponseDto;
+import com.dto.response.contract.property.PropertyContractResponseDto;
+import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.Client;
 import com.entity.Contract;
 import com.entity.LifeContract;
 import com.entity.MedicalRecord;
+import com.entity.MobileContract;
+import com.entity.PropertyContract;
 import com.entity.VehicleContract;
 import com.error.ClientError;
 import com.error.ContractError;
@@ -40,9 +50,14 @@ public class ContractServiceImpl implements ContractService {
     private LifeContractDao lifeContractDao;
 
     @Autowired
+    private PropertyContractDao propertyContractDao;
+
+    @Autowired
+    private MobileContractDao mobileContractDao;
+
+    @Autowired
     private ClientDao clientDao;
 
-    @Transactional
     @Override
     public VehicleContractResponseDto createVehicleContract(CreateVehicleContractDto createVehicleContractDto) {
         Client client = findClientByClientId(createVehicleContractDto.getClientId());
@@ -53,7 +68,6 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.vehicleContractToResponseDto(vehicleContract);
     }
 
-    @Transactional
     @Override
     public LifeContractResponseDto createLifeContract(CreateLifeContractDto createLifeContractDto) {
         Client client = findClientByClientId(createLifeContractDto.getClientId());
@@ -65,13 +79,30 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public PropertyContractResponseDto createPropertyContract(CreatePropertyContractDto createPropertyContractDto) {
+        Client client = findClientByClientId(createPropertyContractDto.getClientId());
+
+        PropertyContract propertyContract = contractMapper.createPropertyContractDtoToEntity(createPropertyContractDto, client);
+        propertyContract = propertyContractDao.persistPropertyContract(propertyContract);
+
+        return contractMapper.propertyContractToResponseDto(propertyContract);
+    }
+
+    @Override
+    public MobileContractResponseDto createMobileContract(CreateMobileContractDto createMobileContractDto) {
+        Client client = findClientByClientId(createMobileContractDto.getClientId());
+
+        MobileContract mobileContract = contractMapper.createMobileContractDtoToEntity(createMobileContractDto, client);
+        mobileContract = mobileContractDao.persistMobileContract(mobileContract);
+
+        return contractMapper.mobileContractToResponseDto(mobileContract);
+    }
+
+    @Transactional
+    @Override
     public VehicleContractResponseDto updateVehicleContract(Long contractId, UpdateVehicleContractDto updateVehicleContractDto) {
         VehicleContract vehicleContract = findVehicleContractById(contractId);
-
         updateVehicleContractFields(vehicleContract, updateVehicleContractDto);
-        ensureContractDatesValidity(vehicleContract);
-        vehicleContractDao.persistVehicleContract(vehicleContract);
-
         return contractMapper.vehicleContractToResponseDto(vehicleContract);
     }
 
@@ -79,16 +110,43 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public LifeContractResponseDto updateLifeContract(Long contractId, UpdateLifeContractDto updateLifeContractDto) {
         LifeContract lifeContract = findLifeContractById(contractId);
-
         updateLifeContractFields(lifeContract, updateLifeContractDto);
-        ensureContractDatesValidity(lifeContract);
-        lifeContractDao.persistLifeContract(lifeContract);
-
         return contractMapper.lifeContractToResponseDto(lifeContract);
+    }
+
+    @Transactional
+    @Override
+    public PropertyContractResponseDto updatePropertyContract(Long contractId, UpdatePropertyContractDto updatePropertyContractDto) {
+        PropertyContract propertyContract = findPropertyContractById(contractId);
+        updatePropertyContractFields(propertyContract, updatePropertyContractDto);
+        return contractMapper.propertyContractToResponseDto(propertyContract);
+    }
+
+    @Transactional
+    @Override
+    public MobileContractResponseDto updateMobileContract(Long contractId, UpdateMobileContractDto updateMobileContractDto) {
+        MobileContract mobileContract = findMobileContractById(contractId);
+        updateMobileContractFields(mobileContract, updateMobileContractDto);
+        return contractMapper.mobileContractToResponseDto(mobileContract);
+    }
+
+    private VehicleContract findVehicleContractById(Long contractId) {
+        return vehicleContractDao.findVehicleContractById(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
     }
 
     private LifeContract findLifeContractById(Long contractId) {
         return lifeContractDao.findLifeContractById(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
+    }
+
+    private PropertyContract findPropertyContractById(Long contractId) {
+        return propertyContractDao.findLifeContractById(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
+    }
+
+    private MobileContract findMobileContractById(Long contractId) {
+        return mobileContractDao.findMobileContractById(contractId)
                 .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
     }
 
@@ -97,16 +155,6 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(() -> new NotFoundException(ClientError.CLIENT_NOT_FOUND));
     }
 
-    private VehicleContract findVehicleContractById(Long contractId) {
-        return vehicleContractDao.findVehicleContractById(contractId)
-                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
-    }
-
-    private void ensureContractDatesValidity(Contract contract) {
-        if (contract.getEffectiveDate().isAfter(contract.getExpirationDate())) {
-            throw new ContractException(ContractError.EFFECTIVE_DATE_AFTER_EXPIRATION_DATE);
-        }
-    }
 
     private void updateVehicleContractFields(VehicleContract vehicleContract, UpdateVehicleContractDto updateVehicleContractDto) {
         Optional.ofNullable(updateVehicleContractDto.getBonusMalus()).ifPresent(vehicleContract::setBonusMalus);
@@ -124,13 +172,34 @@ public class ContractServiceImpl implements ContractService {
         updateBaseContractFields(lifeContract, updateLifeContractDto);
     }
 
+    private void updatePropertyContractFields(PropertyContract propertyContract, UpdatePropertyContractDto updatePropertyContractDto) {
+        Optional.ofNullable(updatePropertyContractDto.getConstructionYear()).ifPresent(propertyContract::setConstructionYear);
+        Optional.ofNullable(updatePropertyContractDto.getObjectiveValue()).ifPresent(propertyContract::setObjectiveValue);
+        Optional.ofNullable(updatePropertyContractDto.getRegistryNumber()).ifPresent(propertyContract::setRegistryNumber);
+        updateBaseContractFields(propertyContract, updatePropertyContractDto);
+    }
+
+
+    private void updateMobileContractFields(MobileContract mobileContract, UpdateMobileContractDto updateMobileContractDto) {
+        Optional.ofNullable(updateMobileContractDto.getImei()).ifPresent(mobileContract::setImei);
+        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(mobileContract::setModel);
+        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(mobileContract::setType);
+        updateBaseContractFields(mobileContract, updateMobileContractDto);
+    }
+
     private void updateBaseContractFields(Contract contract, UpdateContractDto updateContractDto) {
         if (contract != null) {
             Optional.ofNullable(updateContractDto.getEffectiveDate()).ifPresent(contract::setEffectiveDate);
             Optional.ofNullable(updateContractDto.getExpirationDate()).ifPresent(contract::setExpirationDate);
             Optional.ofNullable(updateContractDto.getPremiumAmount()).ifPresent(contract::setPremiumAmount);
+            ensureContractDatesValidity(contract);
         }
     }
 
+    private void ensureContractDatesValidity(Contract contract) {
+        if (contract.getEffectiveDate().isAfter(contract.getExpirationDate())) {
+            throw new ContractException(ContractError.EFFECTIVE_DATE_AFTER_EXPIRATION_DATE);
+        }
+    }
 
 }

@@ -55,7 +55,7 @@ public abstract class CreateContractRequestValidator implements Validator<Create
 
     protected void validateAmount(Double amount) {
         if (utilHelper.invalidAmount(amount)) {
-            throw new ContractException(ContractError.INVALID_DATA);
+            throw new ContractException(ContractError.INVALID_YEAR_RANGE);
         }
     }
 

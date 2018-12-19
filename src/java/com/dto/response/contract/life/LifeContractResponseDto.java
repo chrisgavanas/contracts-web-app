@@ -1,7 +1,7 @@
-package com.dto.response.life;
+package com.dto.response.contract.life;
 
 import com.dto.enums.MedicalRecord;
-import com.dto.response.ContractResponseDto;
+import com.dto.response.contract.ContractResponseDto;
 
 public class LifeContractResponseDto extends ContractResponseDto {
 

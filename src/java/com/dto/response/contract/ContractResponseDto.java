@@ -1,4 +1,4 @@
-package com.dto.response;
+package com.dto.response.contract;
 
 import com.dto.enums.ContractType;
 

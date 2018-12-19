@@ -2,15 +2,21 @@ package com.mapper;
 
 import com.dto.request.contract.CreateContractDto;
 import com.dto.request.contract.life.CreateLifeContractDto;
+import com.dto.request.contract.mobile.CreateMobileContractDto;
+import com.dto.request.contract.property.CreatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
-import com.dto.response.ContractResponseDto;
-import com.dto.response.life.LifeContractResponseDto;
-import com.dto.response.vehicle.VehicleContractResponseDto;
+import com.dto.response.contract.ContractResponseDto;
+import com.dto.response.contract.life.LifeContractResponseDto;
+import com.dto.response.contract.mobile.MobileContractResponseDto;
+import com.dto.response.contract.property.PropertyContractResponseDto;
+import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.Client;
 import com.entity.Contract;
 import com.entity.ContractType;
 import com.entity.LifeContract;
 import com.entity.MedicalRecord;
+import com.entity.MobileContract;
+import com.entity.PropertyContract;
 import com.entity.VehicleContract;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +28,7 @@ public class ContractMapper {
             return null;
         }
 
-        VehicleContract vehicleContract = new VehicleContract();
+        VehicleContract vehicleContract = new VehicleContract();        // TODO Builder pattern
         vehicleContract.setPlateNumber(createVehicleContractDto.getPlateNumber());
         vehicleContract.setBonusMalus(createVehicleContractDto.getBonusMalus());
         vehicleContract.setFirstRegistrationYear(createVehicleContractDto.getFirstRegistrationYear());
@@ -45,6 +51,31 @@ public class ContractMapper {
         return lifeContract;
     }
 
+    public PropertyContract createPropertyContractDtoToEntity(CreatePropertyContractDto createPropertyContractDto, Client client) {
+        if (createPropertyContractDto == null) {
+            return null;
+        }
+
+        PropertyContract propertyContract = new PropertyContract();
+        propertyContract.setConstructionYear(createPropertyContractDto.getConstructionYear());
+        propertyContract.setObjectiveValue(createPropertyContractDto.getObjectiveValue());
+        propertyContract.setRegistryNumber(createPropertyContractDto.getRegistryNumber());
+        enrichBaseContract(propertyContract, createPropertyContractDto, client);
+        return propertyContract;
+    }
+
+    public MobileContract createMobileContractDtoToEntity(CreateMobileContractDto createMobileContractDto, Client client) {
+        if (createMobileContractDto == null) {
+            return null;
+        }
+
+        MobileContract mobileContract = new MobileContract();
+        mobileContract.setImei(createMobileContractDto.getImei());
+        mobileContract.setModel(createMobileContractDto.getModel());
+        mobileContract.setType(createMobileContractDto.getType());
+        enrichBaseContract(mobileContract, createMobileContractDto, client);
+        return mobileContract;
+    }
 
     public VehicleContractResponseDto vehicleContractToResponseDto(VehicleContract vehicleContract) {
         if (vehicleContract == null) {
@@ -52,7 +83,6 @@ public class ContractMapper {
         }
 
         VehicleContractResponseDto vehicleContractResponseDto = new VehicleContractResponseDto();
-        vehicleContractResponseDto.setContractId(vehicleContract.getContractId());
         vehicleContractResponseDto.setPlateNumber(vehicleContract.getPlateNumber());
         vehicleContractResponseDto.setBonusMalus(vehicleContract.getBonusMalus());
         vehicleContractResponseDto.setFirstRegistrationYear(vehicleContract.getFirstRegistrationYear());
@@ -67,13 +97,38 @@ public class ContractMapper {
         }
 
         LifeContractResponseDto lifeContractResponseDto = new LifeContractResponseDto();
-        lifeContractResponseDto.setContractId(lifeContract.getContractId());
         lifeContractResponseDto.setSecuredAge(lifeContract.getSecuredAge());
         lifeContractResponseDto.setBeneficiary(lifeContract.getBeneficiary());
         lifeContractResponseDto.setMedicalRecord(com.dto.enums.MedicalRecord.valueOf(lifeContract.getMedicalRecord().toString()));
         lifeContractResponseDto.setInsuredValue(lifeContract.getInsuredValue());
         enrichBaseContract(lifeContractResponseDto, lifeContract);
         return lifeContractResponseDto;
+    }
+
+    public PropertyContractResponseDto propertyContractToResponseDto(PropertyContract propertyContract) {
+        if (propertyContract == null) {
+            return null;
+        }
+
+        PropertyContractResponseDto propertyContractResponseDto = new PropertyContractResponseDto();
+        propertyContractResponseDto.setConstructionYear(propertyContract.getConstructionYear());
+        propertyContractResponseDto.setRegistryNumber(propertyContract.getRegistryNumber());
+        propertyContractResponseDto.setObjectiveValue(propertyContract.getObjectiveValue());
+        enrichBaseContract(propertyContractResponseDto, propertyContract);
+        return propertyContractResponseDto;
+    }
+
+    public MobileContractResponseDto mobileContractToResponseDto(MobileContract mobileContract) {
+        if (mobileContract == null) {
+            return null;
+        }
+
+        MobileContractResponseDto mobileContractResponseDto = new MobileContractResponseDto();
+        mobileContractResponseDto.setImei(mobileContract.getImei());
+        mobileContractResponseDto.setModel(mobileContract.getModel());
+        mobileContractResponseDto.setType(mobileContract.getType());
+        enrichBaseContract(mobileContractResponseDto, mobileContract);
+        return mobileContractResponseDto;
     }
 
     private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client) {
@@ -85,6 +140,7 @@ public class ContractMapper {
     }
 
     private void enrichBaseContract(ContractResponseDto contractResponseDto, Contract baseContract) {
+        contractResponseDto.setContractId(baseContract.getContractId());
         contractResponseDto.setEffectiveDate(baseContract.getEffectiveDate());
         contractResponseDto.setExpirationDate(baseContract.getExpirationDate());
         contractResponseDto.setPremiumAmount(baseContract.getPremiumAmount());

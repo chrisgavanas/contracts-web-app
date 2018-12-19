@@ -1,6 +1,6 @@
-package com.dto.response.vehicle;
+package com.dto.response.contract.vehicle;
 
-import com.dto.response.ContractResponseDto;
+import com.dto.response.contract.ContractResponseDto;
 
 public class VehicleContractResponseDto extends ContractResponseDto {
 

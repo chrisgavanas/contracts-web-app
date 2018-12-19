@@ -1,6 +1,8 @@
-package com.dto.request.contract;
+package com.dto.response.contract.mobile;
 
-public class CreateMobileContractDto extends CreateContractDto {
+import com.dto.response.contract.ContractResponseDto;
+
+public class MobileContractResponseDto extends ContractResponseDto {
 
     private String imei;
 
@@ -31,5 +33,4 @@ public class CreateMobileContractDto extends CreateContractDto {
     public void setType(String type) {
         this.type = type;
     }
-
 }

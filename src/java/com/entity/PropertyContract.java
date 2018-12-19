@@ -14,6 +14,9 @@ public class PropertyContract extends Contract {
     @Column(name = "objective_value")
     private Double objectiveValue;
 
+    @Column(name = "registry_number")
+    private String registryNumber;
+
     public Integer getConstructionYear() {
         return constructionYear;
     }
@@ -28,6 +31,14 @@ public class PropertyContract extends Contract {
 
     public void setObjectiveValue(Double objectiveValue) {
         this.objectiveValue = objectiveValue;
+    }
+
+    public String getRegistryNumber() {
+        return registryNumber;
+    }
+
+    public void setRegistryNumber(String registryNumber) {
+        this.registryNumber = registryNumber;
     }
 
 }
