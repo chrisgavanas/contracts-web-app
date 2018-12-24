@@ -16,4 +16,5 @@ public class InsuranceApp {
     public static void main(String[] args) {
         new SpringApplication(InsuranceApp.class).run(args);
     }
+
 }

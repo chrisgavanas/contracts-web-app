@@ -1,5 +1,6 @@
 package com.service;
 
+import com.dto.request.contract.ContractCriteria;
 import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.request.contract.mobile.CreateMobileContractDto;
@@ -8,10 +9,13 @@ import com.dto.request.contract.property.CreatePropertyContractDto;
 import com.dto.request.contract.property.UpdatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
+import com.dto.response.contract.ContractResponseDto;
 import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
+
+import java.util.List;
 
 public interface ContractService {
 
@@ -30,5 +34,15 @@ public interface ContractService {
     PropertyContractResponseDto updatePropertyContract(Long contractId, UpdatePropertyContractDto updatePropertyContractDto);
 
     MobileContractResponseDto updateMobileContract(Long contractId, UpdateMobileContractDto updateMobileContractDto);
+
+    List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria);
+
+    List<ContractResponseDto> getContractsByExpiryDate(Long clientId);
+
+    List<ContractResponseDto> getContractsByCompensationAmount(Long clientId);
+
+    List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts);
+
+    List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays);
 
 }

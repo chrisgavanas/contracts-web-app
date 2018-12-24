@@ -1,10 +1,13 @@
 package com.impl.service;
 
 import com.dao.ClientDao;
+import com.dao.ContractDao;
 import com.dao.LifeContractDao;
 import com.dao.MobileContractDao;
 import com.dao.PropertyContractDao;
 import com.dao.VehicleContractDao;
+import com.dto.enums.ContractType;
+import com.dto.request.contract.ContractCriteria;
 import com.dto.request.contract.UpdateContractDto;
 import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.life.UpdateLifeContractDto;
@@ -14,6 +17,7 @@ import com.dto.request.contract.property.CreatePropertyContractDto;
 import com.dto.request.contract.property.UpdatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
+import com.dto.response.contract.ContractResponseDto;
 import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
@@ -35,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,6 +62,9 @@ public class ContractServiceImpl implements ContractService {
 
     @Autowired
     private ClientDao clientDao;
+
+    @Autowired
+    private ContractDao contractDao;
 
     @Override
     public VehicleContractResponseDto createVehicleContract(CreateVehicleContractDto createVehicleContractDto) {
@@ -130,6 +138,42 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.mobileContractToResponseDto(mobileContract);
     }
 
+    @Override
+    public List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria) {
+        List<Contract> contracts = contractDao.findAllBasedOnCriteria(
+                1L,
+                contractCriteria.getContractId(),
+                convertToDomain(contractCriteria.getContractType())
+        );
+        return contractMapper.contractsToResponseDto(contracts);
+    }
+
+    @Override
+    public List<ContractResponseDto> getContractsByExpiryDate(Long clientId) {
+        Client client = findClientByClientId(clientId);
+        List<Contract> contracts = contractDao.findAllByClientIdOrderedByExpirationDate(client);
+        return contractMapper.contractsToResponseDto(contracts);
+    }
+
+    @Override
+    public List<ContractResponseDto> getContractsByCompensationAmount(Long clientId) {
+        Client client = findClientByClientId(clientId);
+        List<Contract> contracts = contractDao.findAllByClientIdOrderedByCompensationAmount(client);
+        return contractMapper.contractsToResponseDto(contracts);
+    }
+
+    @Override
+    public List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts) {
+        List<Contract> contracts = contractDao.findTopExpiredContracts(numberOfContracts, 0);
+        return contractMapper.contractsToResponseDto(contracts);
+    }
+
+    @Override
+    public List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays) {
+        List<Contract> contracts = contractDao.findTopExpiredContracts(numberOfContracts, nextDays);
+        return contractMapper.contractsToResponseDto(contracts);
+    }
+
     private VehicleContract findVehicleContractById(Long contractId) {
         return vehicleContractDao.findVehicleContractById(contractId)
                 .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
@@ -200,6 +244,13 @@ public class ContractServiceImpl implements ContractService {
         if (contract.getEffectiveDate().isAfter(contract.getExpirationDate())) {
             throw new ContractException(ContractError.EFFECTIVE_DATE_AFTER_EXPIRATION_DATE);
         }
+    }
+
+    private com.entity.ContractType convertToDomain(ContractType contractType) {
+        if (contractType == null) {
+            return null;
+        }
+        return com.entity.ContractType.valueOf(contractType.toString());
     }
 
 }

@@ -20,6 +20,10 @@ import com.entity.PropertyContract;
 import com.entity.VehicleContract;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ContractMapper {
 
@@ -129,6 +133,27 @@ public class ContractMapper {
         mobileContractResponseDto.setType(mobileContract.getType());
         enrichBaseContract(mobileContractResponseDto, mobileContract);
         return mobileContractResponseDto;
+    }
+
+    public List<ContractResponseDto> contractsToResponseDto(List<Contract> contracts) {
+        if (contracts == null) {
+            return Collections.emptyList();
+        }
+
+        return contracts.stream().map(contract -> {
+            switch (contract.getContractType()) {
+                case LIFE:
+                    return lifeContractToResponseDto((LifeContract) contract);
+                case MOBILE:
+                    return mobileContractToResponseDto((MobileContract) contract);
+                case VEHICLE:
+                    return vehicleContractToResponseDto((VehicleContract) contract);
+                case PROPERTY:
+                    return propertyContractToResponseDto((PropertyContract) contract);
+                default:
+                    return null;
+            }
+        }).collect(Collectors.toList());
     }
 
     private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client) {

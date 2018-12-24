@@ -49,8 +49,11 @@ public class UtilHelper {
         return amount < 0 || BigDecimal.valueOf(amount).scale() > decimalDigitsAllowed;
     }
 
-
     public boolean invalidAllowedYearForProperties(Integer year) {
         return year < minimumConstructionYear || year > LocalDate.now().getYear();
+    }
+
+    public boolean isPositivevNumber(Number number) {
+        return number != null && number.longValue() > 0;
     }
 }
