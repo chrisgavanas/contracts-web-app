@@ -111,12 +111,6 @@ public class ContractApiImpl implements ContractApi {
     }
 
     @Override
-    public List<ContractResponseDto> getExpiredContracts(@RequestParam("number-of-contracts") Integer numberOfContracts) {
-        validatePositiveNumber(numberOfContracts);
-        return contractService.getExpiredContracts(numberOfContracts);
-    }
-
-    @Override
     public List<ContractResponseDto> getExpiredContracts(@RequestParam("number-of-contracts") Integer numberOfContracts, @RequestParam("next-days") Integer nextDays) {
         validatePositiveNumber(numberOfContracts);
         validatePositiveNumber(nextDays);

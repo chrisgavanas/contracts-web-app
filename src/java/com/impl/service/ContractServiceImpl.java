@@ -163,12 +163,6 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts) {
-        List<Contract> contracts = contractDao.findTopExpiredContracts(numberOfContracts, 0);
-        return contractMapper.contractsToResponseDto(contracts);
-    }
-
-    @Override
     public List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays) {
         List<Contract> contracts = contractDao.findTopExpiredContracts(numberOfContracts, nextDays);
         return contractMapper.contractsToResponseDto(contracts);

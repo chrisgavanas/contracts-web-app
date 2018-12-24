@@ -1,16 +1,16 @@
 package com.api;
 
 import com.dto.request.contract.ContractCriteria;
+import com.dto.request.contract.life.CreateLifeContractDto;
+import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.request.contract.mobile.CreateMobileContractDto;
 import com.dto.request.contract.mobile.UpdateMobileContractDto;
 import com.dto.request.contract.property.CreatePropertyContractDto;
-import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.property.UpdatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
 import com.dto.response.contract.ContractResponseDto;
 import com.dto.response.contract.life.LifeContractResponseDto;
-import com.dto.request.contract.life.UpdateLifeContractDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
@@ -56,9 +56,6 @@ public interface ContractApi {
 
     @GetMapping(path = "/admin/contracts-by-compensation-amount", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ContractResponseDto> getContractsByCompensationAmount(Long clientId);
-
-    @GetMapping(path = "/admin/expired-contracts", produces = MediaType.APPLICATION_JSON_VALUE)
-    List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts);
 
     @GetMapping(path = "/admin/expired-contracts-next-days", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays);
