@@ -33,6 +33,7 @@ import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
 import com.exception.contract.ContractException;
+import com.gateway.IacsGateway;
 import com.mapper.ContractMapper;
 import com.service.ContractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,9 +67,18 @@ public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractDao contractDao;
 
+    @Autowired
+    private IacsGateway iacsGateway;
+
     @Override
     public VehicleContractResponseDto createVehicleContract(CreateVehicleContractDto createVehicleContractDto) {
         Client client = findClientByClientId(createVehicleContractDto.getClientId());
+
+        iacsGateway.calculateVehicleCompensation(
+                createVehicleContractDto.getBonusMalus(),
+                createVehicleContractDto.getFirstRegistrationYear(),
+                createVehicleContractDto.getVehicleValue()
+        );
 
         VehicleContract vehicleContract = contractMapper.createVehicleContractDtoToEntity(createVehicleContractDto, client);
         vehicleContract = vehicleContractDao.persistVehicleContract(vehicleContract);
