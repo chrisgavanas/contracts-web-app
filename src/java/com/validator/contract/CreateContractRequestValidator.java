@@ -30,14 +30,12 @@ public abstract class CreateContractRequestValidator implements Validator<Create
         validateContractType(createContractDto.getContractType());
         validateAllFieldsArePresent(createContractDto);
         validateDateRange(createContractDto.getEffectiveDate(), createContractDto.getExpirationDate());
-        validateAmount(createContractDto.getPremiumAmount());
     }
 
     private void validateAllFieldsArePresent(CreateContractDto createContractDto) {
         boolean anyNull = utilHelper.anyNull(
                 createContractDto.getEffectiveDate(),
                 createContractDto.getExpirationDate(),
-                createContractDto.getPremiumAmount(),
                 createContractDto.getClientId(),
                 createContractDto.getContractType()
         );

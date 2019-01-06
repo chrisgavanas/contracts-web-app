@@ -33,6 +33,7 @@ import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
 import com.exception.contract.ContractException;
+import com.gateway.CompensationResponseDto;
 import com.gateway.IacsGateway;
 import com.mapper.ContractMapper;
 import com.service.ContractService;
@@ -74,13 +75,13 @@ public class ContractServiceImpl implements ContractService {
     public VehicleContractResponseDto createVehicleContract(CreateVehicleContractDto createVehicleContractDto) {
         Client client = findClientByClientId(createVehicleContractDto.getClientId());
 
-        iacsGateway.calculateVehicleCompensation(
+        CompensationResponseDto vehicleCompensation = iacsGateway.calculateVehicleCompensation(
                 createVehicleContractDto.getBonusMalus(),
                 createVehicleContractDto.getFirstRegistrationYear(),
                 createVehicleContractDto.getVehicleValue()
         );
 
-        VehicleContract vehicleContract = contractMapper.createVehicleContractDtoToEntity(createVehicleContractDto, client);
+        VehicleContract vehicleContract = contractMapper.createVehicleContractDtoToEntity(createVehicleContractDto, vehicleCompensation, client);
         vehicleContract = vehicleContractDao.persistVehicleContract(vehicleContract);
 
         return contractMapper.vehicleContractToResponseDto(vehicleContract);
@@ -90,7 +91,13 @@ public class ContractServiceImpl implements ContractService {
     public LifeContractResponseDto createLifeContract(CreateLifeContractDto createLifeContractDto) {
         Client client = findClientByClientId(createLifeContractDto.getClientId());
 
-        LifeContract lifeContract = contractMapper.createLifeContractDtoToEntity(createLifeContractDto, client);
+        CompensationResponseDto lifeCompensation = iacsGateway.calculateLifeCompensation(
+                createLifeContractDto.getSecuredAge(),
+                createLifeContractDto.getMedicalRecord(),
+                createLifeContractDto.getInsuredValue()
+        );
+
+        LifeContract lifeContract = contractMapper.createLifeContractDtoToEntity(createLifeContractDto, client, lifeCompensation);
         lifeContract = lifeContractDao.persistLifeContract(lifeContract);
 
         return contractMapper.lifeContractToResponseDto(lifeContract);
@@ -100,7 +107,12 @@ public class ContractServiceImpl implements ContractService {
     public PropertyContractResponseDto createPropertyContract(CreatePropertyContractDto createPropertyContractDto) {
         Client client = findClientByClientId(createPropertyContractDto.getClientId());
 
-        PropertyContract propertyContract = contractMapper.createPropertyContractDtoToEntity(createPropertyContractDto, client);
+        CompensationResponseDto lifeCompensation = iacsGateway.calculatePropertyCompensation(
+                createPropertyContractDto.getConstructionYear(),
+                createPropertyContractDto.getObjectiveValue()
+        );
+
+        PropertyContract propertyContract = contractMapper.createPropertyContractDtoToEntity(createPropertyContractDto, client, lifeCompensation);
         propertyContract = propertyContractDao.persistPropertyContract(propertyContract);
 
         return contractMapper.propertyContractToResponseDto(propertyContract);

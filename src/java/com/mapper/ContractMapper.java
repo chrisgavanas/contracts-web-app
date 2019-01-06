@@ -18,6 +18,7 @@ import com.entity.MedicalRecord;
 import com.entity.MobileContract;
 import com.entity.PropertyContract;
 import com.entity.VehicleContract;
+import com.gateway.CompensationResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -27,21 +28,21 @@ import java.util.stream.Collectors;
 @Component
 public class ContractMapper {
 
-    public VehicleContract createVehicleContractDtoToEntity(CreateVehicleContractDto createVehicleContractDto, Client client) {
+    public VehicleContract createVehicleContractDtoToEntity(CreateVehicleContractDto createVehicleContractDto, CompensationResponseDto compensationResponseDto, Client client) {
         if (createVehicleContractDto == null) {
             return null;
         }
-
         VehicleContract vehicleContract = new VehicleContract();        // TODO Builder pattern
         vehicleContract.setPlateNumber(createVehicleContractDto.getPlateNumber());
         vehicleContract.setBonusMalus(createVehicleContractDto.getBonusMalus());
         vehicleContract.setFirstRegistrationYear(createVehicleContractDto.getFirstRegistrationYear());
         vehicleContract.setVehicleValue(createVehicleContractDto.getVehicleValue());
-        enrichBaseContract(vehicleContract, createVehicleContractDto, client);
+        vehicleContract.setCompensation(compensationResponseDto.getCompensation());
+        enrichBaseContract(vehicleContract, createVehicleContractDto, client, compensationResponseDto.getPremiumAmount());
         return vehicleContract;
     }
 
-    public LifeContract createLifeContractDtoToEntity(CreateLifeContractDto createLifeContractDto, Client client) {
+    public LifeContract createLifeContractDtoToEntity(CreateLifeContractDto createLifeContractDto, Client client, CompensationResponseDto compensationResponseDto) {
         if (createLifeContractDto == null) {
             return null;
         }
@@ -51,11 +52,12 @@ public class ContractMapper {
         lifeContract.setBeneficiary(createLifeContractDto.getBeneficiary());
         lifeContract.setMedicalRecord(MedicalRecord.valueOf(createLifeContractDto.getMedicalRecord().toString()));
         lifeContract.setInsuredValue(createLifeContractDto.getInsuredValue());
-        enrichBaseContract(lifeContract, createLifeContractDto, client);
+        lifeContract.setCompensation(compensationResponseDto.getCompensation());
+        enrichBaseContract(lifeContract, createLifeContractDto, client, compensationResponseDto.getPremiumAmount());
         return lifeContract;
     }
 
-    public PropertyContract createPropertyContractDtoToEntity(CreatePropertyContractDto createPropertyContractDto, Client client) {
+    public PropertyContract createPropertyContractDtoToEntity(CreatePropertyContractDto createPropertyContractDto, Client client, CompensationResponseDto compensationResponseDto) {
         if (createPropertyContractDto == null) {
             return null;
         }
@@ -64,7 +66,8 @@ public class ContractMapper {
         propertyContract.setConstructionYear(createPropertyContractDto.getConstructionYear());
         propertyContract.setObjectiveValue(createPropertyContractDto.getObjectiveValue());
         propertyContract.setRegistryNumber(createPropertyContractDto.getRegistryNumber());
-        enrichBaseContract(propertyContract, createPropertyContractDto, client);
+        propertyContract.setCompensation(compensationResponseDto.getCompensation());
+        enrichBaseContract(propertyContract, createPropertyContractDto, client, compensationResponseDto.getPremiumAmount());
         return propertyContract;
     }
 
@@ -77,7 +80,7 @@ public class ContractMapper {
         mobileContract.setImei(createMobileContractDto.getImei());
         mobileContract.setModel(createMobileContractDto.getModel());
         mobileContract.setType(createMobileContractDto.getType());
-        enrichBaseContract(mobileContract, createMobileContractDto, client);
+        enrichBaseContract(mobileContract, createMobileContractDto, client, null);
         return mobileContract;
     }
 
@@ -156,10 +159,10 @@ public class ContractMapper {
         }).collect(Collectors.toList());
     }
 
-    private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client) {
+    private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client, Double premiumAmout) {
         contract.setEffectiveDate(createContractDto.getEffectiveDate());
+        contract.setPremiumAmount(premiumAmout);
         contract.setExpirationDate(createContractDto.getExpirationDate());
-        contract.setPremiumAmount(createContractDto.getPremiumAmount());
         contract.setClient(client);
         contract.setContractType(ContractType.valueOf(createContractDto.getContractType().toString()));
     }

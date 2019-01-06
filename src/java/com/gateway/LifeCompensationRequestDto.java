@@ -10,6 +10,12 @@ public class LifeCompensationRequestDto {
 
     private Double insuredValue;
 
+    public LifeCompensationRequestDto(Integer securedAge, MedicalRecord medicalRecord, Double insuredValue) {
+        this.securedAge = securedAge;
+        this.medicalRecord = medicalRecord;
+        this.insuredValue = insuredValue;
+    }
+
     public Integer getSecuredAge() {
         return securedAge;
     }

@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS vehicle_contract (
     bonus_malus INT,
     first_registration_year INT,
     vehicle_value DOUBLE,
+    compensation DOUBLE,
     contract_id INT,
     PRIMARY KEY (contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract(contract_id)
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS property_contract (
     registry_number VARCHAR(255),
     construction_year INT,
     objective_value DOUBLE,
+    compensation DOUBLE,
     contract_id INT,
     PRIMARY KEY (contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract(contract_id)
@@ -43,6 +45,7 @@ CREATE TABLE IF NOT EXISTS life_contract (
     beneficiary VARCHAR(255),
     medical_record VARCHAR(255),
     insured_value DOUBLE,
+    compensation DOUBLE,
     contract_id INT,
     PRIMARY KEY (contract_id),
     FOREIGN KEY (contract_id) REFERENCES contract(contract_id)

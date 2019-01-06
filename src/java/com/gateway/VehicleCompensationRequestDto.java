@@ -1,7 +1,5 @@
 package com.gateway;
 
-import java.time.Instant;
-
 public class VehicleCompensationRequestDto {
 
     private Integer bonusMalus;

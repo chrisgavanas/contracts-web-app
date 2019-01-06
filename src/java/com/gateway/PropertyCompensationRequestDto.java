@@ -4,15 +4,20 @@ import java.time.Instant;
 
 public class PropertyCompensationRequestDto {
 
-    private Instant constructionYear;
+    private Integer constructionYear;
 
     private Double objectiveValue;
 
-    public Instant getConstructionYear() {
+    public PropertyCompensationRequestDto(Integer constructionYear, Double objectiveValue) {
+        this.constructionYear = constructionYear;
+        this.objectiveValue = objectiveValue;
+    }
+
+    public Integer getConstructionYear() {
         return constructionYear;
     }
 
-    public void setConstructionYear(Instant constructionYear) {
+    public void setConstructionYear(Integer constructionYear) {
         this.constructionYear = constructionYear;
     }
 

@@ -17,6 +17,9 @@ public class PropertyContract extends Contract {
     @Column(name = "registry_number")
     private String registryNumber;
 
+    @Column(name = "compensation")
+    private Double compensation;
+
     public Integer getConstructionYear() {
         return constructionYear;
     }
@@ -41,4 +44,11 @@ public class PropertyContract extends Contract {
         this.registryNumber = registryNumber;
     }
 
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
+    }
 }

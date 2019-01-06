@@ -9,7 +9,8 @@ public enum ContractError {
     INVALID_PLATE_NUMBER_FORMAT("Invalid plate number format"),
     BONUS_MALUS_OUT_OF_RANGE("Bonus malus value out of range"),
     CONTRACT_NOT_FOUND("Contract not found"),
-    INVALID_YEAR_RANGE("Invalid year range");
+    INVALID_YEAR_RANGE("Invalid year range"),
+    CANNOT_CALCULATE_COMPENSATION_TRY_AGAIN_LATER("Cannot calculate compensation, try again later");
 
     private String description;
 

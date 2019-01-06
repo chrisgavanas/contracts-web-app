@@ -24,6 +24,9 @@ public class LifeContract extends Contract {
     @Column(name = "insured_value")
     private Double insuredValue;
 
+    @Column(name = "compensation")
+    private Double compensation;
+
     public Integer getSecuredAge() {
         return securedAge;
     }
@@ -56,5 +59,12 @@ public class LifeContract extends Contract {
         this.insuredValue = insuredValue;
     }
 
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
+    }
 }
 

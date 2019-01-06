@@ -2,18 +2,23 @@ package com.gateway;
 
 public class CompensationResponseDto {
 
-    private Long compensation;
+    private Double compensation;
 
     private Double premiumAmount;
 
     public CompensationResponseDto() {
     }
 
-    public Long getCompensation() {
+    public CompensationResponseDto(Double compensation, Double premiumAmount) {
+        this.compensation = compensation;
+        this.premiumAmount = premiumAmount;
+    }
+
+    public Double getCompensation() {
         return compensation;
     }
 
-    public void setCompensation(Long compensation) {
+    public void setCompensation(Double compensation) {
         this.compensation = compensation;
     }
 

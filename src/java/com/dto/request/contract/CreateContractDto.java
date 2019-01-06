@@ -10,8 +10,6 @@ public abstract class CreateContractDto {
 
     private Instant expirationDate;
 
-    private Double premiumAmount;
-
     private Long clientId;
 
     private ContractType contractType;
@@ -30,14 +28,6 @@ public abstract class CreateContractDto {
 
     public void setExpirationDate(Instant expirationDate) {
         this.expirationDate = expirationDate;
-    }
-
-    public Double getPremiumAmount() {
-        return premiumAmount;
-    }
-
-    public void setPremiumAmount(Double premiumAmount) {
-        this.premiumAmount = premiumAmount;
     }
 
     public Long getClientId() {

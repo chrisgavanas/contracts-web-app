@@ -20,6 +20,9 @@ public class VehicleContract extends Contract {
     @Column(name = "vehicle_value")
     private Double vehicleValue;
 
+    @Column(name = "compensation")
+    private Double compensation;
+
     public String getPlateNumber() {
         return plateNumber;
     }
@@ -50,6 +53,14 @@ public class VehicleContract extends Contract {
 
     public void setVehicleValue(Double vehicleValue) {
         this.vehicleValue = vehicleValue;
+    }
+
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
     }
 
 }
