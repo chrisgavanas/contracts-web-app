@@ -14,8 +14,8 @@ public class PropertyContract extends Contract {
     @Column(name = "objective_value")
     private Double objectiveValue;
 
-    @Column(name = "registry_number")
-    private String registryNumber;
+    @Column(name = "national_registry_number")
+    private String nationalRegistryNumber;
 
     @Column(name = "compensation")
     private Double compensation;
@@ -36,12 +36,12 @@ public class PropertyContract extends Contract {
         this.objectiveValue = objectiveValue;
     }
 
-    public String getRegistryNumber() {
-        return registryNumber;
+    public String getNationalRegistryNumber() {
+        return nationalRegistryNumber;
     }
 
-    public void setRegistryNumber(String registryNumber) {
-        this.registryNumber = registryNumber;
+    public void setNationalRegistryNumber(String nationalRegistryNumber) {
+        this.nationalRegistryNumber = nationalRegistryNumber;
     }
 
     public Double getCompensation() {

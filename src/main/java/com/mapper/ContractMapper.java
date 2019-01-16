@@ -10,14 +10,7 @@ import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
-import com.entity.Client;
-import com.entity.Contract;
-import com.entity.ContractType;
-import com.entity.LifeContract;
-import com.entity.MedicalRecord;
-import com.entity.MobileContract;
-import com.entity.PropertyContract;
-import com.entity.VehicleContract;
+import com.entity.*;
 import com.gateway.CompensationResponseDto;
 import org.springframework.stereotype.Component;
 
@@ -65,7 +58,7 @@ public class ContractMapper {
         PropertyContract propertyContract = new PropertyContract();
         propertyContract.setConstructionYear(createPropertyContractDto.getConstructionYear());
         propertyContract.setObjectiveValue(createPropertyContractDto.getObjectiveValue());
-        propertyContract.setRegistryNumber(createPropertyContractDto.getRegistryNumber());
+        propertyContract.setNationalRegistryNumber(createPropertyContractDto.getRegistryNumber());
         propertyContract.setCompensation(compensationResponseDto.getCompensation());
         enrichBaseContract(propertyContract, createPropertyContractDto, client, compensationResponseDto.getPremiumAmount());
         return propertyContract;
@@ -78,8 +71,8 @@ public class ContractMapper {
 
         MobileContract mobileContract = new MobileContract();
         mobileContract.setImei(createMobileContractDto.getImei());
-        mobileContract.setModel(createMobileContractDto.getModel());
-        mobileContract.setType(createMobileContractDto.getType());
+        mobileContract.setModel(MobileDeviceModel.valueOf(createMobileContractDto.getModel()));
+        mobileContract.setType(MobileDeviceType.valueOf(createMobileContractDto.getType()));
         enrichBaseContract(mobileContract, createMobileContractDto, client, null);
         return mobileContract;
     }
@@ -119,7 +112,7 @@ public class ContractMapper {
 
         PropertyContractResponseDto propertyContractResponseDto = new PropertyContractResponseDto();
         propertyContractResponseDto.setConstructionYear(propertyContract.getConstructionYear());
-        propertyContractResponseDto.setRegistryNumber(propertyContract.getRegistryNumber());
+        propertyContractResponseDto.setRegistryNumber(propertyContract.getNationalRegistryNumber());
         propertyContractResponseDto.setObjectiveValue(propertyContract.getObjectiveValue());
         enrichBaseContract(propertyContractResponseDto, propertyContract);
         return propertyContractResponseDto;
@@ -132,8 +125,8 @@ public class ContractMapper {
 
         MobileContractResponseDto mobileContractResponseDto = new MobileContractResponseDto();
         mobileContractResponseDto.setImei(mobileContract.getImei());
-        mobileContractResponseDto.setModel(mobileContract.getModel());
-        mobileContractResponseDto.setType(mobileContract.getType());
+        mobileContractResponseDto.setModel(mobileContract.getModel().name());
+        mobileContractResponseDto.setType(mobileContract.getType().name());
         enrichBaseContract(mobileContractResponseDto, mobileContract);
         return mobileContractResponseDto;
     }

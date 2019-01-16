@@ -22,13 +22,7 @@ import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
-import com.entity.Client;
-import com.entity.Contract;
-import com.entity.LifeContract;
-import com.entity.MedicalRecord;
-import com.entity.MobileContract;
-import com.entity.PropertyContract;
-import com.entity.VehicleContract;
+import com.entity.*;
 import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
@@ -235,15 +229,15 @@ public class ContractServiceImpl implements ContractService {
     private void updatePropertyContractFields(PropertyContract propertyContract, UpdatePropertyContractDto updatePropertyContractDto) {
         Optional.ofNullable(updatePropertyContractDto.getConstructionYear()).ifPresent(propertyContract::setConstructionYear);
         Optional.ofNullable(updatePropertyContractDto.getObjectiveValue()).ifPresent(propertyContract::setObjectiveValue);
-        Optional.ofNullable(updatePropertyContractDto.getRegistryNumber()).ifPresent(propertyContract::setRegistryNumber);
+        Optional.ofNullable(updatePropertyContractDto.getRegistryNumber()).ifPresent(propertyContract::setNationalRegistryNumber);
         updateBaseContractFields(propertyContract, updatePropertyContractDto);
     }
 
 
     private void updateMobileContractFields(MobileContract mobileContract, UpdateMobileContractDto updateMobileContractDto) {
         Optional.ofNullable(updateMobileContractDto.getImei()).ifPresent(mobileContract::setImei);
-        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(mobileContract::setModel);
-        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(mobileContract::setType);
+        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(model -> mobileContract.setModel(MobileDeviceModel.valueOf(model)));
+        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(model -> mobileContract.setType(MobileDeviceType.valueOf(model)));
         updateBaseContractFields(mobileContract, updateMobileContractDto);
     }
 
