@@ -2,7 +2,7 @@ package com.dao;
 
 import com.entity.Client;
 import com.entity.Contract;
-import com.entity.ContractType;
+import com.entity.enums.ContractType;
 import com.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

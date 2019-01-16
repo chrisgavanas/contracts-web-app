@@ -2,6 +2,9 @@ package com.entity;
 
 import javax.persistence.*;
 
+import com.entity.enums.MobileDeviceModel;
+import com.entity.enums.MobileDeviceType;
+
 @Entity
 @Table(name = "mobile_contract")
 public class MobileContract extends Contract {

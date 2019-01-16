@@ -23,6 +23,9 @@ import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.*;
+import com.entity.enums.MedicalRecord;
+import com.entity.enums.MobileDeviceModel;
+import com.entity.enums.MobileDeviceType;
 import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
@@ -256,11 +259,11 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    private com.entity.ContractType convertToDomain(ContractType contractType) {
+    private com.entity.enums.ContractType convertToDomain(ContractType contractType) {
         if (contractType == null) {
             return null;
         }
-        return com.entity.ContractType.valueOf(contractType.toString());
+        return com.entity.enums.ContractType.valueOf(contractType.toString());
     }
 
 }

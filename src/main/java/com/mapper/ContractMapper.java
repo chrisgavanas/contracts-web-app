@@ -11,6 +11,10 @@ import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.*;
+import com.entity.enums.ContractType;
+import com.entity.enums.MedicalRecord;
+import com.entity.enums.MobileDeviceModel;
+import com.entity.enums.MobileDeviceType;
 import com.gateway.CompensationResponseDto;
 import org.springframework.stereotype.Component;
 
