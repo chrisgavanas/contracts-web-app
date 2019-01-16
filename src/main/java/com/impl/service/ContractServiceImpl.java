@@ -22,7 +22,15 @@ import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
-import com.entity.*;
+import com.entity.Client;
+import com.entity.Contract;
+import com.entity.LifeContract;
+import com.entity.MedicalRecord;
+import com.entity.MobileContract;
+import com.entity.MobileDeviceModel;
+import com.entity.MobileDeviceType;
+import com.entity.PropertyContract;
+import com.entity.VehicleContract;
 import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
@@ -184,6 +192,42 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.contractsToResponseDto(contracts);
     }
 
+    @Override
+    public ContractResponseDto getContractByContractId(Long contractId) {
+        Contract contract = findContractById(contractId);
+
+        return contractMapper.contractToResponseDto(contract);
+    }
+
+
+//    private CompensationResponseDto updateCompensation(VehicleContract contract) {
+//        return iacsGateway.calculateVehicleCompensation(
+//                contract.getBonusMalus(),
+//                contract.getFirstRegistrationYear(),
+//                contract.getVehicleValue()
+//        );
+//    }
+//
+//    private CompensationResponseDto updateCompensation(LifeContract contract) {
+//        return iacsGateway.calculateLifeCompensation(
+//                contract.getSecuredAge(),
+//                com.dto.enums.MedicalRecord.valueOf(contract.getMedicalRecord().toString()),
+//                contract.getInsuredValue()
+//        );
+//    }
+//
+//    private CompensationResponseDto updateCompensation(PropertyContract contract) {
+//        return iacsGateway.calculatePropertyCompensation(
+//                contract.getConstructionYear(),
+//                contract.getObjectiveValue()
+//        );
+//    }
+
+    private Contract findContractById(Long contractId) {
+        return contractDao.findContractByContractId(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
+    }
+
     private VehicleContract findVehicleContractById(Long contractId) {
         return vehicleContractDao.findVehicleContractById(contractId)
                 .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
@@ -236,8 +280,8 @@ public class ContractServiceImpl implements ContractService {
 
     private void updateMobileContractFields(MobileContract mobileContract, UpdateMobileContractDto updateMobileContractDto) {
         Optional.ofNullable(updateMobileContractDto.getImei()).ifPresent(mobileContract::setImei);
-        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(model -> mobileContract.setModel(MobileDeviceModel.valueOf(model)));
-        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(model -> mobileContract.setType(MobileDeviceType.valueOf(model)));
+        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(model -> mobileContract.setModel(MobileDeviceModel.map(model)));
+        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(model -> mobileContract.setType(MobileDeviceType.map(model)));
         updateBaseContractFields(mobileContract, updateMobileContractDto);
     }
 

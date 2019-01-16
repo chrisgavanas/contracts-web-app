@@ -12,12 +12,17 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ContractDao {
 
     @Autowired
     private ContractRepository contractRepository;
+
+    public Optional<Contract> findContractByContractId(Long contractId) {
+        return contractRepository.findById(contractId);
+    }
 
     public List<Contract> findAllBasedOnCriteria(Long clientId, Long contractId, ContractType contractType) {
         Specification<Contract> specification = Specification

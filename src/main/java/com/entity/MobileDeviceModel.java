@@ -1,10 +1,21 @@
 package com.entity;
 
+import java.util.Arrays;
+
 public enum MobileDeviceModel {
+
     SAMSUNG,
     APPLE,
     XIAOMI,
     DELL,
     LENOVO,
-    OTHER
+    OTHER;
+
+    public static MobileDeviceModel map(String value) {
+        return Arrays.stream(values())
+                .filter(v -> v.toString().equals(value))
+                .findFirst()
+                .orElse(OTHER);
+    }
+
 }

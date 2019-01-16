@@ -10,7 +10,16 @@ import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
-import com.entity.*;
+import com.entity.Client;
+import com.entity.Contract;
+import com.entity.ContractType;
+import com.entity.LifeContract;
+import com.entity.MedicalRecord;
+import com.entity.MobileContract;
+import com.entity.MobileDeviceModel;
+import com.entity.MobileDeviceType;
+import com.entity.PropertyContract;
+import com.entity.VehicleContract;
 import com.gateway.CompensationResponseDto;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +34,7 @@ public class ContractMapper {
         if (createVehicleContractDto == null) {
             return null;
         }
-        VehicleContract vehicleContract = new VehicleContract();        // TODO Builder pattern
+        VehicleContract vehicleContract = new VehicleContract();
         vehicleContract.setPlateNumber(createVehicleContractDto.getPlateNumber());
         vehicleContract.setBonusMalus(createVehicleContractDto.getBonusMalus());
         vehicleContract.setFirstRegistrationYear(createVehicleContractDto.getFirstRegistrationYear());
@@ -71,8 +80,8 @@ public class ContractMapper {
 
         MobileContract mobileContract = new MobileContract();
         mobileContract.setImei(createMobileContractDto.getImei());
-        mobileContract.setModel(MobileDeviceModel.valueOf(createMobileContractDto.getModel()));
-        mobileContract.setType(MobileDeviceType.valueOf(createMobileContractDto.getType()));
+        mobileContract.setModel(MobileDeviceModel.map(createMobileContractDto.getModel()));
+        mobileContract.setType(MobileDeviceType.map(createMobileContractDto.getType()));
         enrichBaseContract(mobileContract, createMobileContractDto, client, null);
         return mobileContract;
     }
@@ -136,23 +145,33 @@ public class ContractMapper {
             return Collections.emptyList();
         }
 
-        return contracts.stream().map(contract -> {
-            switch (contract.getContractType()) {
-                case LIFE:
-                    return lifeContractToResponseDto((LifeContract) contract);
-                case MOBILE:
-                    return mobileContractToResponseDto((MobileContract) contract);
-                case VEHICLE:
-                    return vehicleContractToResponseDto((VehicleContract) contract);
-                case PROPERTY:
-                    return propertyContractToResponseDto((PropertyContract) contract);
-                default:
-                    return null;
-            }
-        }).collect(Collectors.toList());
+        return contracts
+                .stream()
+                .map(this::contractToResponseDto)
+                .collect(Collectors.toList());
     }
 
-    private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client, Double premiumAmout) {
+    public ContractResponseDto contractToResponseDto(Contract contract) {
+        if (contract == null) {
+            return null;
+        }
+
+        switch (contract.getContractType()) {
+            case LIFE:
+                return lifeContractToResponseDto((LifeContract) contract);
+            case MOBILE:
+                return mobileContractToResponseDto((MobileContract) contract);
+            case VEHICLE:
+                return vehicleContractToResponseDto((VehicleContract) contract);
+            case PROPERTY:
+                return propertyContractToResponseDto((PropertyContract) contract);
+            default:
+                return null;
+        }
+    }
+
+    private void enrichBaseContract(Contract contract, CreateContractDto createContractDto, Client client, Double
+            premiumAmout) {
         contract.setEffectiveDate(createContractDto.getEffectiveDate());
         contract.setPremiumAmount(premiumAmout);
         contract.setExpirationDate(createContractDto.getExpirationDate());
