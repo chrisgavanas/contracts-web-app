@@ -2,10 +2,14 @@ package com.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.entity.enums.Role;
 
 
 @Entity
@@ -30,7 +34,8 @@ public class Client {
     private String lastname;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getClientId() {
         return clientId;
@@ -72,11 +77,11 @@ public class Client {
         this.lastname = lastname;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
