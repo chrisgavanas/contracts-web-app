@@ -4,16 +4,16 @@
 
 -- =================================================================================================
 --CLIENT
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (1,'a pariatur','orum.Lorem ipsum dolo','t,','HR_MANAGER','oluptate velit esse cillum dolore eu fugiat nulla pariatur. Ex')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (2,' laboris nisi ut ali','iscing elit, sed do eiusmod tempor incidid',' lab','HR_MANAGER','eserunt mollit anim id est laborum.Lorem')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (3,'quip ex ea commodo','nisi ut aliquip ex ea','x ea commodo con','USER','d est laborum.Lorem ipsum dolor')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (4,'ommodo consequat. ','r si','lamco laboris nisi ','USER','dent, sunt in culpa qui of')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (5,' consequat. Duis aute irure dolor in reprehenderi','nt occaecat cupidatat non ','lum d','USER','nim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo ')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (6,'eniam, quis nostrud exercitation u','a qui officia deserunt mollit anim id est labo','lit esse ','USER','ut aliquip ex ')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (7,'aliqua. Ut enim ad minim veniam, quis nostrud ','e et dolore magn','ia de','USER',' aute')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (8,'oris nisi ut aliquip ex ea commodo consequat','od tempor incididunt','nt ut labore e','USER','at cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (9,'l','is aute irure dolor in reprehenderit in v','r','USER','abore et dolore magna a')
-INSERT INTO client (client_id,firstname,lastname,password,"role",username) VALUES (10,'or in r',' labore','fficia deserunt ','USER','culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (1,'firstname','lastname','admin1','pass1234','HR_MANAGER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (2,'firstname','lastname','admin2','pass1234','HR_MANAGER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (3,'firstname','lastname','user1','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (4,'firstname','lastname','user2','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (5,'firstname','lastname','user3','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (6,'firstname','lastname','user4','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (7,'firstname','lastname','user5','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (8,'firstname','lastname','user6','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (9,'firstname','lastname','user7','pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (9,'firstname','lastname','user8','pass1234','USER')
 
 
 
