@@ -21,7 +21,7 @@ public class LifeContract extends Contract {
     @Column(name = "medical_record")
     private MedicalRecord medicalRecord;
 
-    @Column(name = "insured_value")
+    @Column(name = "insured_value", precision = 10, scale = 2)
     private Double insuredValue;
 
     @Column(name = "compensation")

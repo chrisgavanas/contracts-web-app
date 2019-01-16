@@ -29,19 +29,24 @@ public class Contract {
     @Column(name = "effective_date")
     private Instant effectiveDate;
 
-    @Column(name = "expiration_Date")
+    @Column(name = "expiration_date")
     private Instant expirationDate;
 
-    @Column(name = "premium_amount")
+    @Column(name = "premium_amount", precision = 10, scale = 2)
     private Double premiumAmount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "contract_status")
+    private ContractStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "contract_type")
+    private ContractType contractType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private ContractType contractType;
 
     public Long getContractId() {
         return contractId;
@@ -75,12 +80,12 @@ public class Contract {
         this.premiumAmount = premiumAmount;
     }
 
-    public Client getClient() {
-        return client;
+    public ContractStatus getStatus() {
+        return status;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setStatus(ContractStatus status) {
+        this.status = status;
     }
 
     public ContractType getContractType() {
@@ -90,4 +95,13 @@ public class Contract {
     public void setContractType(ContractType contractType) {
         this.contractType = contractType;
     }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
 }

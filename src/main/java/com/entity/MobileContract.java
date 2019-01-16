@@ -1,8 +1,6 @@
 package com.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "mobile_contract")
@@ -11,11 +9,13 @@ public class MobileContract extends Contract {
     @Column(name = "imei")
     private String imei;
 
-    @Column(name = "model")
-    private String model;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "device_model")
+    private MobileDeviceModel model;
 
-    @Column(name = "type")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "device_type")
+    private MobileDeviceType type;
 
     public String getImei() {
         return imei;
@@ -25,19 +25,19 @@ public class MobileContract extends Contract {
         this.imei = imei;
     }
 
-    public String getModel() {
+    public MobileDeviceModel getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(MobileDeviceModel model) {
         this.model = model;
     }
 
-    public String getType() {
+    public MobileDeviceType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(MobileDeviceType type) {
         this.type = type;
     }
 
