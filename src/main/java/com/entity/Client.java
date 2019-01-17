@@ -33,6 +33,9 @@ public class Client {
     @Column(name = "lastname")
     private String lastname;
 
+    @Column(name = "enabled")
+    private Boolean enabled;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -75,6 +78,14 @@ public class Client {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Role getRole() {
