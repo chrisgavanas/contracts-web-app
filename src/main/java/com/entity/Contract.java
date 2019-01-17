@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 
+import com.entity.enums.ContractStatus;
+import com.entity.enums.ContractType;
+
 
 @Entity
 @Table(name = "contract")

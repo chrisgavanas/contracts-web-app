@@ -1,5 +1,12 @@
 package com.api;
 
+import java.util.List;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.dto.request.contract.ContractCriteria;
 import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.life.UpdateLifeContractDto;
@@ -14,12 +21,6 @@ import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
 import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @RequestMapping(path = "/api")
 public interface ContractApi {
@@ -48,7 +49,7 @@ public interface ContractApi {
     @PostMapping(path = "/admin/mobile-contract/{contract-id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     MobileContractResponseDto updateMobileContract(Long contractId, UpdateMobileContractDto updateMobileContractDto);
 
-    @GetMapping(path = "/contracts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/admin/user-contracts", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria);
 
     @GetMapping(path = "/admin/contracts-by-expiration-date", produces = MediaType.APPLICATION_JSON_VALUE)
