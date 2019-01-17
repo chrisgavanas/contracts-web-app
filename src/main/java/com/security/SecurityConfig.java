@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)//We don't need sessions to be created.
                 .and()
             .authorizeRequests()
-                .antMatchers("/api/login/**").permitAll()
+                .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/admin/contracts/").hasRole("HR_MANAGER")
                 .anyRequest().authenticated();
     }
@@ -66,8 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .jdbcAuthentication()
             .dataSource(dataSource)
             .passwordEncoder(delegatingPasswordEncoder())
-            .usersByUsernameQuery("select username,password,enabled from client where username = ?")
-            .authoritiesByUsernameQuery("select username,role from users where username = ?");
+            .usersByUsernameQuery("select username, password, enabled from client where username = ?")
+            .authoritiesByUsernameQuery("select username, role from client where username = ?");
     }
 
     @Bean
