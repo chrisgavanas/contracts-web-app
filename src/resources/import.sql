@@ -4,16 +4,16 @@
 
 -- =================================================================================================
 --CLIENT
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (1,'firstname','lastname','admin1','{noop}pass1234','HR_MANAGER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (2,'firstname','lastname','admin2','{bcrypt}$2a$10$XzNGb9UyXtN5AbIBZAgGQODoE9B03ErntjA2GKNwtInnp3HxmpyrS','HR_MANAGER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (3,'firstname','lastname','user1','{noop}pass1234','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (4,'firstname','lastname','user2','{bcrypt}$2a$10$8r4Fe6iPu/2pmiDr2h15BOWKKM5UfWJ/hRC2K/ZtNK.wCvkNAkR3y','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (5,'firstname','lastname','user3','{bcrypt}$2a$10$ZwTAXu0Tkob5z/M51na16ujHdNJInKcoOeZYErhglLJe1ih1lWD/2','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (6,'firstname','lastname','user4','{bcrypt}$2a$10$yycZr0Jo/hatY67s7jQn6uAkHGAzqlzBD03yN.kfJWrQGEzFtHWfy','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (7,'firstname','lastname','user5','{noop}pass1234','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (8,'firstname','lastname','user6','{noop}pass1234','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (9,'firstname','lastname','user7','{noop}pass1234','USER')
-INSERT INTO client (client_id,firstname,lastname,username,password,"role") VALUES (9,'firstname','lastname','user8','{noop}pass1234','USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (1,'firstname','lastname','admin1','{noop}pass1234', true, 'HR_MANAGER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (2,'firstname','lastname','admin2','{bcrypt}$2a$10$XzNGb9UyXtN5AbIBZAgGQODoE9B03ErntjA2GKNwtInnp3HxmpyrS',  true, 'HR_MANAGER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (3,'firstname','lastname','user1','{noop}pass1234',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (4,'firstname','lastname','user2','{bcrypt}$2a$10$8r4Fe6iPu/2pmiDr2h15BOWKKM5UfWJ/hRC2K/ZtNK.wCvkNAkR3y',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (5,'firstname','lastname','user3','{bcrypt}$2a$10$ZwTAXu0Tkob5z/M51na16ujHdNJInKcoOeZYErhglLJe1ih1lWD/2',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (6,'firstname','lastname','user4','{bcrypt}$2a$10$yycZr0Jo/hatY67s7jQn6uAkHGAzqlzBD03yN.kfJWrQGEzFtHWfy',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (7,'firstname','lastname','user5','{noop}pass1234',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (8,'firstname','lastname','user6','{noop}pass1234',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (9,'firstname','lastname','user7','{noop}pass1234',  true, 'USER')
+INSERT INTO client (client_id,firstname,lastname,username,password,enabled, "role") VALUES (10,'firstname','lastname','user8','{noop}pass1234', true, 'USER')
 
 
 
