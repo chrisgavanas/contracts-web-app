@@ -1,16 +1,17 @@
 package com.api;
 
+import java.util.List;
+
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.entity.Contract;
+import com.dto.response.contract.ContractResponseDto;
 
 @RequestMapping(path = "/api")
 public interface ClientApi {
 
     @GetMapping(path = "/contracts", produces = MediaType.APPLICATION_JSON_VALUE)
-    Contract getContractsOfClient(@RequestParam("client-id") Long clientId);
+    List<ContractResponseDto> getContractsOfClient(Long clientId);
 
 }

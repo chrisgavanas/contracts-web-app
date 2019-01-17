@@ -2,7 +2,11 @@ package com.impl.api;
 
 import java.util.List;
 
+import javax.ws.rs.BeanParam;
+
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,55 +54,55 @@ public class ContractApiImpl implements ContractApi {
 
 
     @Override
-    public VehicleContractResponseDto createVehicleContract(CreateVehicleContractDto createVehicleContractDto) {
+    public VehicleContractResponseDto createVehicleContract(@RequestBody CreateVehicleContractDto createVehicleContractDto) {
         contractRequestValidator.validate(createVehicleContractDto);
         return contractService.createVehicleContract(createVehicleContractDto);
     }
 
     @Override
-    public LifeContractResponseDto createLifeContract(CreateLifeContractDto createLifeContractDto) {
+    public LifeContractResponseDto createLifeContract(@RequestBody CreateLifeContractDto createLifeContractDto) {
         contractRequestValidator.validate(createLifeContractDto);
         return contractService.createLifeContract(createLifeContractDto);
     }
 
     @Override
-    public PropertyContractResponseDto createPropertyContract(CreatePropertyContractDto createPropertyContractDto) {
+    public PropertyContractResponseDto createPropertyContract(@RequestBody CreatePropertyContractDto createPropertyContractDto) {
         contractRequestValidator.validate(createPropertyContractDto);
         return contractService.createPropertyContract(createPropertyContractDto);
     }
 
     @Override
-    public MobileContractResponseDto createMobileContract(CreateMobileContractDto createMobileContractDto) {
+    public MobileContractResponseDto createMobileContract(@RequestBody CreateMobileContractDto createMobileContractDto) {
         contractRequestValidator.validate(createMobileContractDto);
         return contractService.createMobileContract(createMobileContractDto);
     }
 
     @Override
-    public VehicleContractResponseDto updateVehicleContract(Long contractId, UpdateVehicleContractDto updateVehicleContractDto) {
+    public VehicleContractResponseDto updateVehicleContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdateVehicleContractDto updateVehicleContractDto) {
         contractRequestValidator.validate(updateVehicleContractDto);
         return contractService.updateVehicleContract(contractId, updateVehicleContractDto);
     }
 
     @Override
-    public LifeContractResponseDto updateLifeContract(Long contractId, UpdateLifeContractDto updateLifeContractDto) {
+    public LifeContractResponseDto updateLifeContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdateLifeContractDto updateLifeContractDto) {
         contractRequestValidator.validate(updateLifeContractDto);
         return contractService.updateLifeContract(contractId, updateLifeContractDto);
     }
 
     @Override
-    public PropertyContractResponseDto updatePropertyContract(Long contractId, UpdatePropertyContractDto updatePropertyContractDto) {
+    public PropertyContractResponseDto updatePropertyContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdatePropertyContractDto updatePropertyContractDto) {
         contractRequestValidator.validate(updatePropertyContractDto);
         return contractService.updatePropertyContract(contractId, updatePropertyContractDto);
     }
 
     @Override
-    public MobileContractResponseDto updateMobileContract(Long contractId, UpdateMobileContractDto updateMobileContractDto) {
+    public MobileContractResponseDto updateMobileContract(@PathVariable("contract-id") Long contractId, @RequestBody UpdateMobileContractDto updateMobileContractDto) {
         contractRequestValidator.validate(updateMobileContractDto);
         return contractService.updateMobileContract(contractId, updateMobileContractDto);
     }
 
     @Override
-    public List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria) {
+    public List<ContractResponseDto> getContractsOfUser(@BeanParam ContractCriteria contractCriteria) {
         ClientResponseDto clientResponseDto = clientService.findUser(SecurityContextHolder.getContext().getAuthentication().getName());
         return contractService.getContractsOfUser(contractCriteria, clientResponseDto.getClientId());
     }
@@ -110,13 +114,13 @@ public class ContractApiImpl implements ContractApi {
     }
 
     @Override
-    public List<ContractResponseDto> getContractsByCompensationAmount(Long clientId) {
+    public List<ContractResponseDto> getContractsByCompensationAmount(@RequestParam("client-id") Long clientId) {
         validatePositiveNumber(clientId);
         return contractService.getContractsByCompensationAmount(clientId);
     }
 
     @Override
-    public List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays) {
+    public List<ContractResponseDto> getExpiredContracts(@RequestParam("contracts-number") Integer numberOfContracts, @RequestParam("next-days") Integer nextDays) {
         validatePositiveNumber(numberOfContracts);
         validatePositiveNumber(nextDays);
         return contractService.getExpiredContracts(numberOfContracts, nextDays);

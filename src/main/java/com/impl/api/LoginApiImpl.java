@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.LoginApi;
@@ -22,7 +23,7 @@ public class LoginApiImpl implements LoginApi {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public Map<String, Object> login(Credentials credentials) {
+    public Map<String, Object> login(@RequestBody Credentials credentials) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword());
 
         Authentication authentication = authenticationManager.authenticate(token);
