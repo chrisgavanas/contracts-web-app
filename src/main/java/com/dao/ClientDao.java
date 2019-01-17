@@ -1,11 +1,12 @@
 package com.dao;
 
-import com.entity.Client;
-import com.repository.ClientRepository;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import com.entity.Client;
+import com.repository.ClientRepository;
 
 @Component
 public class ClientDao {
@@ -16,6 +17,8 @@ public class ClientDao {
     public Optional<Client> findClientByClientId(Long clientId) {
         return clientRepository.findById(clientId);
     }
+
+    public Optional<Client> findClientByUsername(String username) {return clientRepository.findByUsername(username);}
 
 
 }
