@@ -10,7 +10,7 @@ import com.entity.Contract;
 @RequestMapping(path = "/api")
 public interface ClientApi {
 
-    @GetMapping(path = "/contract", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/contracts", produces = MediaType.APPLICATION_JSON_VALUE)
     Contract getContractsOfClient(@RequestParam("client-id") Long clientId);
 
 }
