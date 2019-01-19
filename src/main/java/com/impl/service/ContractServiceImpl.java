@@ -195,33 +195,44 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public ContractResponseDto getContractByContractId(Long contractId) {
         Contract contract = findContractById(contractId);
-
-        return contractMapper.contractToResponseDto(contract);
+        ContractResponseDto contractResponseDto = contractMapper.contractToResponseDto(contract);
+        calculateCompensationBasedOnType(contractResponseDto);
+        return contractResponseDto;
     }
 
-
-//    private CompensationResponseDto updateCompensation(VehicleContract contract) {
-//        return iacsGateway.calculateVehicleCompensation(
-//                contract.getBonusMalus(),
-//                contract.getFirstRegistrationYear(),
-//                contract.getVehicleValue()
-//        );
-//    }
-//
-//    private CompensationResponseDto updateCompensation(LifeContract contract) {
-//        return iacsGateway.calculateLifeCompensation(
-//                contract.getSecuredAge(),
-//                com.dto.enums.MedicalRecord.valueOf(contract.getMedicalRecord().toString()),
-//                contract.getInsuredValue()
-//        );
-//    }
-//
-//    private CompensationResponseDto updateCompensation(PropertyContract contract) {
-//        return iacsGateway.calculatePropertyCompensation(
-//                contract.getConstructionYear(),
-//                contract.getObjectiveValue()
-//        );
-//    }
+    private void calculateCompensationBasedOnType(ContractResponseDto contractResponseDto) {
+        switch (contractResponseDto.getContractType()) {
+            case PROPERTY:
+                PropertyContractResponseDto propertyContract = (PropertyContractResponseDto) contractResponseDto;
+                CompensationResponseDto propertyCompensation = iacsGateway.calculatePropertyCompensation(
+                        propertyContract.getConstructionYear(),
+                        propertyContract.getObjectiveValue()
+                );
+                propertyContract.setCompensation(propertyCompensation.getCompensation());
+                propertyContract.setPremiumAmount(propertyCompensation.getPremiumAmount());
+                break;
+            case VEHICLE:
+                VehicleContractResponseDto vehicleContract = (VehicleContractResponseDto) contractResponseDto;
+                CompensationResponseDto vehicleCompensation = iacsGateway.calculateVehicleCompensation(
+                        vehicleContract.getBonusMalus(),
+                        vehicleContract.getFirstRegistrationYear(),
+                        vehicleContract.getVehicleValue()
+                );
+                vehicleContract.setCompensation(vehicleCompensation.getCompensation());
+                vehicleContract.setPremiumAmount(vehicleCompensation.getPremiumAmount());
+                break;
+            case LIFE:
+                LifeContractResponseDto lifeContract = (LifeContractResponseDto) contractResponseDto;
+                CompensationResponseDto lifeCompensation = iacsGateway.calculateLifeCompensation(
+                        lifeContract.getSecuredAge(),
+                        com.dto.enums.MedicalRecord.valueOf(lifeContract.getMedicalRecord().toString()),
+                        lifeContract.getInsuredValue()
+                );
+                lifeContract.setPremiumAmount(lifeCompensation.getPremiumAmount());
+                lifeContract.setCompensation(lifeCompensation.getPremiumAmount());
+                break;
+        }
+    }
 
     private Contract findContractById(Long contractId) {
         return contractDao.findContractByContractId(contractId)

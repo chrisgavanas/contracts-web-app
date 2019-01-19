@@ -96,6 +96,7 @@ public class ContractMapper {
         vehicleContractResponseDto.setBonusMalus(vehicleContract.getBonusMalus());
         vehicleContractResponseDto.setFirstRegistrationYear(vehicleContract.getFirstRegistrationYear());
         vehicleContractResponseDto.setVehicleValue(vehicleContract.getVehicleValue());
+        vehicleContractResponseDto.setCompensation(vehicleContract.getCompensation());
         enrichBaseContract(vehicleContractResponseDto, vehicleContract);
         return vehicleContractResponseDto;
     }
@@ -110,6 +111,7 @@ public class ContractMapper {
         lifeContractResponseDto.setBeneficiary(lifeContract.getBeneficiary());
         lifeContractResponseDto.setMedicalRecord(com.dto.enums.MedicalRecord.valueOf(lifeContract.getMedicalRecord().toString()));
         lifeContractResponseDto.setInsuredValue(lifeContract.getInsuredValue());
+        lifeContractResponseDto.setCompensation(lifeContract.getCompensation());
         enrichBaseContract(lifeContractResponseDto, lifeContract);
         return lifeContractResponseDto;
     }
@@ -123,6 +125,7 @@ public class ContractMapper {
         propertyContractResponseDto.setConstructionYear(propertyContract.getConstructionYear());
         propertyContractResponseDto.setRegistryNumber(propertyContract.getNationalRegistryNumber());
         propertyContractResponseDto.setObjectiveValue(propertyContract.getObjectiveValue());
+        propertyContractResponseDto.setCompensation(propertyContract.getCompensation());
         enrichBaseContract(propertyContractResponseDto, propertyContract);
         return propertyContractResponseDto;
     }
