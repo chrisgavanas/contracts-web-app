@@ -50,7 +50,7 @@ public class ContractDao {
     private Specification<Contract> clientIdEquals(Long clientId) {
         return (root, query, builder) -> {
             if (clientId != null) {
-                return builder.equal(root.get("clientId"), clientId);
+                return builder.equal(root.get("client"), clientId);
             }
             return builder.conjunction();
         };
