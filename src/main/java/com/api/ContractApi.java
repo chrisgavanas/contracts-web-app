@@ -58,6 +58,9 @@ public interface ContractApi {
     @GetMapping(path = "/admin/contracts-by-compensation-amount", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ContractResponseDto> getContractsByCompensationAmount(Long clientId);
 
+    @GetMapping(path = "/admin/contract/{contract-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ContractResponseDto getContractById(Long contractId);
+
     @GetMapping(path = "/admin/expired-contracts-next-days", produces = MediaType.APPLICATION_JSON_VALUE)
     List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays);
 

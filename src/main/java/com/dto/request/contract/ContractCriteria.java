@@ -14,7 +14,7 @@ public class ContractCriteria {
         return contractId;
     }
 
-    @QueryParam("contractId")
+    @QueryParam("contract-id")
     public void setContractId(Long contractId) {
         this.contractId = contractId;
     }
@@ -23,7 +23,7 @@ public class ContractCriteria {
         return contractType;
     }
 
-    @QueryParam("contractType")
+    @QueryParam("contract-type")
     public void setContractType(ContractType contractType) {
         this.contractType = contractType;
     }

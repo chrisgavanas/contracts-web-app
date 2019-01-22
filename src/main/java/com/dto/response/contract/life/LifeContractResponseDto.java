@@ -13,6 +13,8 @@ public class LifeContractResponseDto extends ContractResponseDto {
 
     private Double insuredValue;
 
+    private Double compensation;
+
     public Integer getSecuredAge() {
         return securedAge;
     }
@@ -43,5 +45,13 @@ public class LifeContractResponseDto extends ContractResponseDto {
 
     public void setInsuredValue(Double insuredValue) {
         this.insuredValue = insuredValue;
+    }
+
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
     }
 }
