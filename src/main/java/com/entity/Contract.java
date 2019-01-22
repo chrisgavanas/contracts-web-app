@@ -46,7 +46,7 @@ public class Contract {
     @Column(name = "contract_type")
     private ContractType contractType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
