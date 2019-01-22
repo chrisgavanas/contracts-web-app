@@ -43,4 +43,5 @@ public interface ContractService {
 
     List<ContractResponseDto> getExpiredContracts(Integer numberOfContracts, Integer nextDays);
 
+    ContractResponseDto getContractByContractId(Long contractId);
 }

@@ -10,6 +10,8 @@ public class PropertyContractResponseDto extends ContractResponseDto {
 
     private Double objectiveValue;
 
+    private Double compensation;
+
     public String getRegistryNumber() {
         return registryNumber;
     }
@@ -34,4 +36,11 @@ public class PropertyContractResponseDto extends ContractResponseDto {
         this.objectiveValue = objectiveValue;
     }
 
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
+    }
 }

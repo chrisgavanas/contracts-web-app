@@ -193,6 +193,53 @@ public class ContractServiceImpl implements ContractService {
         return contractMapper.contractsToResponseDto(contracts);
     }
 
+    @Override
+    public ContractResponseDto getContractByContractId(Long contractId) {
+        Contract contract = findContractById(contractId);
+        ContractResponseDto contractResponseDto = contractMapper.contractToResponseDto(contract);
+        calculateCompensationBasedOnType(contractResponseDto);
+        return contractResponseDto;
+    }
+
+    private void calculateCompensationBasedOnType(ContractResponseDto contractResponseDto) {
+        switch (contractResponseDto.getContractType()) {
+            case PROPERTY:
+                PropertyContractResponseDto propertyContract = (PropertyContractResponseDto) contractResponseDto;
+                CompensationResponseDto propertyCompensation = iacsGateway.calculatePropertyCompensation(
+                        propertyContract.getConstructionYear(),
+                        propertyContract.getObjectiveValue()
+                );
+                propertyContract.setCompensation(propertyCompensation.getCompensation());
+                propertyContract.setPremiumAmount(propertyCompensation.getPremiumAmount());
+                break;
+            case VEHICLE:
+                VehicleContractResponseDto vehicleContract = (VehicleContractResponseDto) contractResponseDto;
+                CompensationResponseDto vehicleCompensation = iacsGateway.calculateVehicleCompensation(
+                        vehicleContract.getBonusMalus(),
+                        vehicleContract.getFirstRegistrationYear(),
+                        vehicleContract.getVehicleValue()
+                );
+                vehicleContract.setCompensation(vehicleCompensation.getCompensation());
+                vehicleContract.setPremiumAmount(vehicleCompensation.getPremiumAmount());
+                break;
+            case LIFE:
+                LifeContractResponseDto lifeContract = (LifeContractResponseDto) contractResponseDto;
+                CompensationResponseDto lifeCompensation = iacsGateway.calculateLifeCompensation(
+                        lifeContract.getSecuredAge(),
+                        com.dto.enums.MedicalRecord.valueOf(lifeContract.getMedicalRecord().toString()),
+                        lifeContract.getInsuredValue()
+                );
+                lifeContract.setPremiumAmount(lifeCompensation.getPremiumAmount());
+                lifeContract.setCompensation(lifeCompensation.getPremiumAmount());
+                break;
+        }
+    }
+
+    private Contract findContractById(Long contractId) {
+        return contractDao.findContractByContractId(contractId)
+                .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
+    }
+
     private VehicleContract findVehicleContractById(Long contractId) {
         return vehicleContractDao.findVehicleContractById(contractId)
                 .orElseThrow(() -> new NotFoundException(ContractError.CONTRACT_NOT_FOUND));
@@ -245,8 +292,8 @@ public class ContractServiceImpl implements ContractService {
 
     private void updateMobileContractFields(MobileContract mobileContract, UpdateMobileContractDto updateMobileContractDto) {
         Optional.ofNullable(updateMobileContractDto.getImei()).ifPresent(mobileContract::setImei);
-        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(model -> mobileContract.setModel(MobileDeviceModel.valueOf(model)));
-        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(model -> mobileContract.setType(MobileDeviceType.valueOf(model)));
+        Optional.ofNullable(updateMobileContractDto.getModel()).ifPresent(model -> mobileContract.setModel(MobileDeviceModel.map(model)));
+        Optional.ofNullable(updateMobileContractDto.getType()).ifPresent(model -> mobileContract.setType(MobileDeviceType.map(model)));
         updateBaseContractFields(mobileContract, updateMobileContractDto);
     }
 

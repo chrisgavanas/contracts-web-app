@@ -12,6 +12,8 @@ public class VehicleContractResponseDto extends ContractResponseDto {
 
     private Double vehicleValue;
 
+    private Double compensation;
+
     public String getPlateNumber() {
         return plateNumber;
     }
@@ -42,5 +44,13 @@ public class VehicleContractResponseDto extends ContractResponseDto {
 
     public void setVehicleValue(Double vehicleValue) {
         this.vehicleValue = vehicleValue;
+    }
+
+    public Double getCompensation() {
+        return compensation;
+    }
+
+    public void setCompensation(Double compensation) {
+        this.compensation = compensation;
     }
 }
