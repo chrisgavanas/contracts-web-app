@@ -2,7 +2,7 @@
 
 Suggested solution for EE's Spring Boot Assignment
 
-##Description
+## Description
 ```bash
 This is the web-app part of the assignment, exposing contract and user specific information REST endpoints.
 
