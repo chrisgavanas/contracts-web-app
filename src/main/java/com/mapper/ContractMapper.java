@@ -1,5 +1,11 @@
 package com.mapper;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
+
 import com.dto.request.contract.CreateContractDto;
 import com.dto.request.contract.life.CreateLifeContractDto;
 import com.dto.request.contract.mobile.CreateMobileContractDto;
@@ -12,20 +18,15 @@ import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.Client;
 import com.entity.Contract;
-import com.entity.ContractType;
 import com.entity.LifeContract;
-import com.entity.MedicalRecord;
 import com.entity.MobileContract;
-import com.entity.MobileDeviceModel;
-import com.entity.MobileDeviceType;
 import com.entity.PropertyContract;
 import com.entity.VehicleContract;
+import com.entity.enums.ContractType;
+import com.entity.enums.MedicalRecord;
+import com.entity.enums.MobileDeviceModel;
+import com.entity.enums.MobileDeviceType;
 import com.gateway.CompensationResponseDto;
-import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ContractMapper {

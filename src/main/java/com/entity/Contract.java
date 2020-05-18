@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 
+import com.entity.enums.ContractStatus;
+import com.entity.enums.ContractType;
+
 
 @Entity
 @Table(name = "contract")
@@ -43,7 +46,7 @@ public class Contract {
     @Column(name = "contract_type")
     private ContractType contractType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 

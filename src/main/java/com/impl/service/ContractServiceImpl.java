@@ -1,5 +1,12 @@
 package com.impl.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.dao.ClientDao;
 import com.dao.ContractDao;
 import com.dao.LifeContractDao;
@@ -25,12 +32,12 @@ import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.entity.Client;
 import com.entity.Contract;
 import com.entity.LifeContract;
-import com.entity.MedicalRecord;
 import com.entity.MobileContract;
-import com.entity.MobileDeviceModel;
-import com.entity.MobileDeviceType;
 import com.entity.PropertyContract;
 import com.entity.VehicleContract;
+import com.entity.enums.MedicalRecord;
+import com.entity.enums.MobileDeviceModel;
+import com.entity.enums.MobileDeviceType;
 import com.error.ClientError;
 import com.error.ContractError;
 import com.exception.NotFoundException;
@@ -39,12 +46,6 @@ import com.gateway.CompensationResponseDto;
 import com.gateway.IacsGateway;
 import com.mapper.ContractMapper;
 import com.service.ContractService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -163,9 +164,9 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria) {
+    public List<ContractResponseDto> getContractsOfUser(ContractCriteria contractCriteria, Long clientId) {
         List<Contract> contracts = contractDao.findAllBasedOnCriteria(
-                1L,
+                clientId,
                 contractCriteria.getContractId(),
                 convertToDomain(contractCriteria.getContractType())
         );
@@ -311,11 +312,11 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    private com.entity.ContractType convertToDomain(ContractType contractType) {
+    private com.entity.enums.ContractType convertToDomain(ContractType contractType) {
         if (contractType == null) {
             return null;
         }
-        return com.entity.ContractType.valueOf(contractType.toString());
+        return com.entity.enums.ContractType.valueOf(contractType.toString());
     }
 
 }

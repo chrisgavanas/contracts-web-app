@@ -7,6 +7,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import com.entity.enums.MedicalRecord;
+
 @Entity
 @Table(name = "life_contract")
 public class LifeContract extends Contract {

@@ -1,5 +1,15 @@
 package com.impl.api;
 
+import java.util.List;
+
+import javax.ws.rs.BeanParam;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.api.ContractApi;
 import com.dto.request.contract.ContractCriteria;
 import com.dto.request.contract.life.CreateLifeContractDto;
@@ -10,6 +20,7 @@ import com.dto.request.contract.property.CreatePropertyContractDto;
 import com.dto.request.contract.property.UpdatePropertyContractDto;
 import com.dto.request.contract.vehicle.CreateVehicleContractDto;
 import com.dto.request.contract.vehicle.UpdateVehicleContractDto;
+import com.dto.response.client.ClientResponseDto;
 import com.dto.response.contract.ContractResponseDto;
 import com.dto.response.contract.life.LifeContractResponseDto;
 import com.dto.response.contract.mobile.MobileContractResponseDto;
@@ -17,16 +28,10 @@ import com.dto.response.contract.property.PropertyContractResponseDto;
 import com.dto.response.contract.vehicle.VehicleContractResponseDto;
 import com.error.ContractError;
 import com.exception.contract.ContractException;
+import com.service.ClientService;
 import com.service.ContractService;
 import com.util.UtilHelper;
 import com.validator.contract.ContractRequestValidator;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.ws.rs.BeanParam;
-import java.util.List;
 
 @RestController
 public class ContractApiImpl implements ContractApi {
@@ -34,14 +39,17 @@ public class ContractApiImpl implements ContractApi {
     private final UtilHelper utilHelper;
     private final ContractRequestValidator contractRequestValidator;
     private final ContractService contractService;
+    private final ClientService clientService;
 
     public ContractApiImpl(
             UtilHelper utilHelper,
             ContractRequestValidator contractRequestValidator,
-            ContractService contractService) {
+            ContractService contractService,
+            ClientService clientService) {
         this.utilHelper = utilHelper;
         this.contractRequestValidator = contractRequestValidator;
         this.contractService = contractService;
+        this.clientService = clientService;
     }
 
 
@@ -95,7 +103,8 @@ public class ContractApiImpl implements ContractApi {
 
     @Override
     public List<ContractResponseDto> getContractsOfUser(@BeanParam ContractCriteria contractCriteria) {
-        return contractService.getContractsOfUser(contractCriteria);
+        ClientResponseDto clientResponseDto = clientService.findUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        return contractService.getContractsOfUser(contractCriteria, clientResponseDto.getClientId());
     }
 
     @Override
@@ -116,7 +125,7 @@ public class ContractApiImpl implements ContractApi {
     }
 
     @Override
-    public List<ContractResponseDto> getExpiredContracts(@RequestParam("number-of-contracts") Integer numberOfContracts, @RequestParam("next-days") Integer nextDays) {
+    public List<ContractResponseDto> getExpiredContracts(@RequestParam("contracts-number") Integer numberOfContracts, @RequestParam("next-days") Integer nextDays) {
         validatePositiveNumber(numberOfContracts);
         validatePositiveNumber(nextDays);
         return contractService.getExpiredContracts(numberOfContracts, nextDays);
